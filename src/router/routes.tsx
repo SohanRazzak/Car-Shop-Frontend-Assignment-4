@@ -1,9 +1,24 @@
 import { createBrowserRouter } from "react-router";
-import App from "../App";
+import MainLayout from "../layouts/MainLayout";
+import Homepage from "../pages/Homepage/Homepage";
 
 export const routes = createBrowserRouter([
     {
         path: '/',
-        element: <App/>
+        element: <MainLayout/>,
+        children: [
+            {
+                index: true,
+                element: <Homepage/>
+            },
+            {
+                path: '/all-cars',
+                element: <Homepage/>
+            }
+        ]
+    },
+    {
+        path: '/dashboard',
+        element: <Homepage/>
     }
 ])
