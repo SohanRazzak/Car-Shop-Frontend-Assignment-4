@@ -4,7 +4,7 @@ const Footer = () => {
             <footer className="max-w-6xl mx-auto footer sm:footer-horizontal p-10">
                 <aside>
                     <img
-                        src="../../../public/MotorHiveLogo.svg"
+                        src="/MotorHiveLogo.svg"
                         alt="MotorHive"
                         className="w-20 m-4"
                         height="80px"

@@ -44,7 +44,7 @@ const Navbar = () => {
                         </ul>
                     </div>
                     <Link to='/' className="btn btn-ghost text-xl flex items-center">
-                    <img src="../../../public/MotorHiveLogo.svg" alt="MotorHive" 
+                    <img src="/MotorHiveLogo.svg" alt="MotorHive" 
                     className="w-6 m1"/>
                     MotorHive</Link>
                 </div>
@@ -64,7 +64,7 @@ const Navbar = () => {
                     </ul>
                 </div>
                 <div className="navbar-end">
-                    <a className="btn">Login</a>
+                    <a className="btn btn-error text-white uppercase">Login</a>
                 </div>
             </div>
         </div>
