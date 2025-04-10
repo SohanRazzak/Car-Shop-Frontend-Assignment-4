@@ -8,14 +8,25 @@ type Props = {
 };
 
 const Navbar = ({ dashboard }: Props) => {
+    const sidebarItems = (
+        <>
+            {/* Sidebar content here */}
+            <li>
+                <a>Sidebar Item 1</a>
+            </li>
+            <li>
+                <a>Sidebar Item 2</a>
+            </li>
+        </>
+    );
+
     useEffect(() => {
         themeChange(false);
         // 👆 false parameter is required for react project
     }, []);
-
     return (
         <div className="bg-base-100 shadow-sm">
-            <div className="navbar max-w-6xl mx-auto">
+            <div className="navbar justify-between max-w-6xl mx-auto">
                 {dashboard && (
                     <>
                         <div className="drawer w-18 mx-4">
@@ -28,7 +39,7 @@ const Navbar = ({ dashboard }: Props) => {
                                 {/* Page content here */}
                                 <label
                                     htmlFor="my-drawer"
-                                    className="btn btn-accent drawer-button"
+                                    className="btn btn-accent drawer-button hidden lg:flex"
                                 >
                                     <MdSpaceDashboard size={"20"} />
                                 </label>
@@ -40,13 +51,7 @@ const Navbar = ({ dashboard }: Props) => {
                                     className="drawer-overlay"
                                 ></label>
                                 <ul className="menu bg-base-200 text-base-content min-h-full w-80 p-4">
-                                    {/* Sidebar content here */}
-                                    <li>
-                                        <a>Sidebar Item 1</a>
-                                    </li>
-                                    <li>
-                                        <a>Sidebar Item 2</a>
-                                    </li>
+                                    {sidebarItems}
                                 </ul>
                             </div>
                         </div>
@@ -57,7 +62,7 @@ const Navbar = ({ dashboard }: Props) => {
                         <div
                             tabIndex={0}
                             role="button"
-                            className="btn btn-ghost lg:hidden"
+                            className="btn btn-ghost lg:hidden -ml-20"
                         >
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -85,10 +90,12 @@ const Navbar = ({ dashboard }: Props) => {
                             <li>
                                 <Link to="/all-cars">All Cars</Link>
                             </li>
-
                             <li>
                                 <Link to="/dashboard">Dashboard</Link>
                             </li>
+                            {
+                                sidebarItems
+                            }
                         </ul>
                     </div>
                     <Link
@@ -125,8 +132,8 @@ const Navbar = ({ dashboard }: Props) => {
                         <input
                             type="checkbox"
                             className="theme-controller"
-                            value="light"
-                            data-theme-set="light"
+                            value="dark"
+                            data-toggle-theme="dark,light"
                         />
 
                         {/* sun icon */}
