@@ -1,7 +1,24 @@
 import { Link } from "react-router";
 import LayoutWrapper from "../../layouts/LayoutWrapper";
+import { FormEvent, useState } from "react";
 
 const SignUp = () => {
+    const [showPassword, setShowPassword] = useState(false);
+
+
+    const handleSignUp = (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        const form = e.currentTarget;
+        const newUserInfo = {
+            name: form.nameFull.value,
+            email: form.email.value,
+            password: form.password.value,
+            phone: form.phone.value,
+            address: form.address.value,
+            city: form.address.value,
+        };
+        console.log(newUserInfo);
+    };
     return (
         <LayoutWrapper>
             <div className="hero min-h-screen">
@@ -17,32 +34,85 @@ const SignUp = () => {
                     </div>
                     <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
                         <div className="card-body">
-                            <fieldset className="fieldset">
-                                <label className="fieldset-label">Email</label>
-                                <input
-                                    type="email"
-                                    className="input"
-                                    placeholder="Email"
-                                />
-                                <label className="fieldset-label">
-                                    Password
-                                </label>
-                                <input
-                                    type="password"
-                                    className="input"
-                                    placeholder="Password"
-                                />
-                                <div>
-                                    {/* <a className="link link-hover">
-                                            Forgot password?
-                                        </a> */}
-                                </div>
-                                <button className="btn btn-neutral mt-4 uppercase">
-                                    Login
-                                </button>
-                            </fieldset>
+                            <form onSubmit={(e) => handleSignUp(e)}>
+                                <fieldset className="fieldset">
+                                    <label className="fieldset-label">
+                                        Name
+                                    </label>
+                                    <input
+                                        type="text"
+                                        name="nameFull"
+                                        className="input"
+                                        placeholder="Enter your Name"
+                                    />
+                                    <label className="fieldset-label">
+                                        Phone
+                                    </label>
+                                    <input
+                                        type="text"
+                                        name="phone"
+                                        className="input"
+                                        placeholder="Phone Number"
+                                    />
+                                    <label className="fieldset-label">
+                                        Email
+                                    </label>
+                                    <input
+                                        type="email"
+                                        name="email"
+                                        className="input"
+                                        placeholder="Enter your email"
+                                    />
+                                    <label className="fieldset-label">
+                                        Address
+                                    </label>
+                                    <input
+                                        type="text"
+                                        name="address"
+                                        className="input"
+                                        placeholder="Enter Address"
+                                    />
+                                    <label className="fieldset-label">
+                                        City
+                                    </label>
+                                    <input
+                                        type="text"
+                                        name="city"
+                                        className="input"
+                                        placeholder="Enter City"
+                                    />
+                                    <label className="fieldset-label">
+                                        Password
+                                    </label>
+                                    <input
+                                        type={showPassword? 'text' : 'password'}
+                                        name="password"
+                                        className="input"
+                                        placeholder="Enter Password"
+                                    />
+                                    <div className="flex gap-2 items-center mx-1 mt-2">
+                                        <input
+                                            type="checkbox"
+                                            name="showPassword"
+                                            id="showPassword"
+                                            onChange={() =>
+                                                setShowPassword(!showPassword)
+                                            }
+                                        />
+                                        <label htmlFor="showPassword">
+                                            Show Password
+                                        </label>
+                                    </div>
+                                    <button
+                                        type="submit"
+                                        className="btn btn-neutral mt-4 uppercase"
+                                    >
+                                        Sign me up
+                                    </button>
+                                </fieldset>
+                            </form>
                             <hr />
-                            <p className="text-center">
+                            <p className="text-center mt-2">
                                 Already have and account?{" "}
                                 <Link
                                     className="text-rose-600 font-bold"

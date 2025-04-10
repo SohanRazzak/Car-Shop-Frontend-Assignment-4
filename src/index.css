@@ -2,3 +2,12 @@
 @plugin "daisyui" {
     themes: light --default, dark --prefersdark;
 }
+
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+
+/* Active Class CSS for navlink */
+.active {
+    background-color: teal;
+    color: whitesmoke;
+    font-weight: bold;
+}

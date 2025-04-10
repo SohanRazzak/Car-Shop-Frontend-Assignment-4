@@ -1,4 +1,4 @@
-import { Link } from "react-router";
+import { Link, NavLink } from "react-router";
 import { MdSpaceDashboard } from "react-icons/md";
 import { useEffect } from "react";
 import { themeChange } from "theme-change";
@@ -8,14 +8,27 @@ type Props = {
 };
 
 const Navbar = ({ dashboard }: Props) => {
+    const menuLinks = (
+        <>
+            <li>
+                <NavLink to="/">Home</NavLink>
+            </li>
+            <li>
+                <NavLink to="/all-cars">All Cars</NavLink>
+            </li>
+            <li>
+                <NavLink to="/dashboard">Dashboard</NavLink>
+            </li>
+        </>
+    );
     const sidebarItems = (
         <>
             {/* Sidebar content here */}
             <li>
-                <a>Sidebar Item 1</a>
+                <NavLink to="/dashboard">Dashboard</NavLink>
             </li>
             <li>
-                <a>Sidebar Item 2</a>
+                <NavLink to="/dashboard/add-products">Add New Car</NavLink>
             </li>
         </>
     );
@@ -26,7 +39,7 @@ const Navbar = ({ dashboard }: Props) => {
     }, []);
     return (
         <div className="bg-base-100 shadow-sm">
-            <div className="navbar justify-between max-w-6xl mx-auto">
+            <div className="navbar justify-between max-w-7xl mx-auto">
                 {dashboard && (
                     <>
                         <div className="drawer w-18 mx-4">
@@ -50,7 +63,7 @@ const Navbar = ({ dashboard }: Props) => {
                                     aria-label="close sidebar"
                                     className="drawer-overlay"
                                 ></label>
-                                <ul className="menu bg-base-200 text-base-content min-h-full w-80 p-4">
+                                <ul className="menu bg-base-200 text-base-content min-h-full w-80 p-4 font-semibold">
                                     {sidebarItems}
                                 </ul>
                             </div>
@@ -82,20 +95,10 @@ const Navbar = ({ dashboard }: Props) => {
                         </div>
                         <ul
                             tabIndex={0}
-                            className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
+                            className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow font-semibold"
                         >
-                            <li>
-                                <Link to="/">Home</Link>
-                            </li>
-                            <li>
-                                <Link to="/all-cars">All Cars</Link>
-                            </li>
-                            <li>
-                                <Link to="/dashboard">Dashboard</Link>
-                            </li>
-                            {
-                                sidebarItems
-                            }
+                            {menuLinks}
+                            {sidebarItems}
                         </ul>
                     </div>
                     <Link
@@ -111,19 +114,7 @@ const Navbar = ({ dashboard }: Props) => {
                     </Link>
                 </div>
                 <div className="navbar-center hidden lg:flex">
-                    <ul className="menu menu-horizontal px-1">
-                        <li>
-                            <Link to="/">Home</Link>
-                        </li>
-
-                        <li>
-                            <Link to="/all-cars">All Cars</Link>
-                        </li>
-
-                        <li>
-                            <Link to="/dashboard">Dashboard</Link>
-                        </li>
-                    </ul>
+                    <ul className="menu menu-horizontal px-1 font-semibold gap-3">{menuLinks}</ul>
                 </div>
                 <div className="navbar-end">
                     {/* Theme controller */}

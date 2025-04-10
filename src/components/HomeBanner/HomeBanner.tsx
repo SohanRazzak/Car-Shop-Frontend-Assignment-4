@@ -3,7 +3,7 @@ import { Link } from "react-router";
 const HomeBanner = () => {
     return (
         <div
-            className="flex items-center bg-right md:bg-cover min-h-screen"
+            className="flex items-center bg-right md:bg-cover min-h-[640px]"
             style={{
                 backgroundImage: `url(/motorhivebanner.jpeg)`,
             }}
