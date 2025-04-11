@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 import { useAppSelector } from "../redux/hooks";
-import { useCurrentToken } from "../redux/features/auth/authSlice";
+import { selectCurrentToken } from "../redux/features/auth/authSlice";
 import { Navigate } from "react-router";
 
 type Props = {
@@ -8,7 +8,7 @@ type Props = {
 }
 
 const ProtectedRoute = ({children}: Props) => {
-    const token = useAppSelector(useCurrentToken);
+    const token = useAppSelector(selectCurrentToken);
 
     if(!token){
         return <Navigate to='/login' state={location.pathname}></Navigate>

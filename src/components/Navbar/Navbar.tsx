@@ -3,14 +3,14 @@ import { MdSpaceDashboard } from "react-icons/md";
 import { useEffect } from "react";
 import { themeChange } from "theme-change";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
-import { logout, useCurrentToken } from "../../redux/features/auth/authSlice";
+import { logout, selectCurrentToken } from "../../redux/features/auth/authSlice";
 
 type Props = {
     dashboard: boolean;
 };
 
 const Navbar = ({ dashboard }: Props) => {
-    const token = useAppSelector(useCurrentToken);
+    const token = useAppSelector(selectCurrentToken);
     const dispatch = useAppDispatch();
 
     const handleLogout = () => {
