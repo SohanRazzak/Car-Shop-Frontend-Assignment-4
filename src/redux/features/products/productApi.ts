@@ -1,14 +1,11 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { TProduct } from "../../../types/types";
 
-export const productApi = createApi({
-    reducerPath: 'productApi',
-    baseQuery: fetchBaseQuery({ baseUrl: '' }),
-    tagTypes: ['allProducts'],
+import { TProduct } from "../../../types/types";
+import { baseApi } from "../../api/baseApi";
+
+export const productApi = baseApi.injectEndpoints({
     endpoints: (builder) => ({
         getAllProducts: builder.query<TProduct, void>({
-            query: () => '/products',
-            providesTags: ['allProducts']
+            query: () => '/products'
         }),
         getProductById: builder.query<TProduct, string>({
             query: (id)=> `/products/${id}`,
