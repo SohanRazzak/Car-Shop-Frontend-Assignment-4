@@ -6,7 +6,7 @@ const MainLayout = () => {
     
     return (
         <>
-            <Navbar dashboard={false}/>
+            <Navbar/>
                 <Outlet />
             <Footer/>
         </>

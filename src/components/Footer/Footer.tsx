@@ -1,6 +1,6 @@
 const Footer = () => {
     return (
-        <div data-theme="dark"  className="bg-base-200 text-base-content">
+        <div data-theme="dark"  className="bg-gray-800 text-gray-50">
             <footer className="max-w-7xl mx-auto footer sm:footer-horizontal p-10">
                 <aside>
                     <img
@@ -58,7 +58,7 @@ const Footer = () => {
                     </div>
                 </nav>
             </footer>
-            <div className="text-center bg-base-300 px-5 py-4">
+            <div className="text-center bg-gray-900 text-gray-50 px-5 py-4">
                 <p>
                     Copyright © {new Date().getFullYear()} - All right reserved
                     by MotorHive Industries Ltd

@@ -6,5 +6,6 @@ export const baseApi = createApi({
         baseUrl: 'https://car-store-assingment.vercel.app/api/v1',
         credentials: "include"
     }),
-    endpoints: () => ({})
+    endpoints: () => ({}),
+    tagTypes: ['Products']
 });

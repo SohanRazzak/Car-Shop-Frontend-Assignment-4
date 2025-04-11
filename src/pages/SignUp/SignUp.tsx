@@ -1,37 +1,46 @@
-import { Link, useNavigate } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import LayoutWrapper from "../../layouts/LayoutWrapper";
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { useSignupMutation } from "../../redux/features/auth/authApi";
 import { toast } from "sonner";
+import { useAppSelector } from "../../redux/hooks";
+import { selectCurrentToken } from "../../redux/features/auth/authSlice";
 
 const SignUp = () => {
     const [showPassword, setShowPassword] = useState(false);
-    const [ signup] = useSignupMutation();
+    const [signup] = useSignupMutation();
     const navigate = useNavigate();
+    const location = useLocation();
 
+    const token = useAppSelector(selectCurrentToken);
+
+    useEffect(() => {
+        if (token) {
+            navigate(location.state || "/");
+        }
+    }, [location.state, navigate, token]);
 
     const handleSignUp = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        const toastId = toast.loading('Signing Up...', {duration: 2000});
+        const toastId = toast.loading("Signing Up...", { duration: 2000 });
 
         try {
             const form = e.currentTarget;
-        const newUserInfo = {
-            name: form.nameFull.value,
-            email: form.email.value,
-            password: form.password.value,
-            phone: form.phone.value,
-            address: form.address.value,
-            city: form.address.value,
-        };
-        await signup(newUserInfo);
-        toast.success('Sign Up Success!', {id: toastId})
-        return navigate('/login')
-        form.reset();
+            const newUserInfo = {
+                name: form.nameFull.value,
+                email: form.email.value,
+                password: form.password.value,
+                phone: form.phone.value,
+                address: form.address.value,
+                city: form.address.value,
+            };
+            await signup(newUserInfo);
+            toast.success("Sign Up Success!", { id: toastId });
+            return navigate("/login");
+            form.reset();
         } catch (error) {
-            toast.error('Error: Something went wrong!', {id: toastId})
+            toast.error("Error: Something went wrong!", { id: toastId });
             console.log(error);
-            
         }
     };
     return (
@@ -100,7 +109,9 @@ const SignUp = () => {
                                         Password
                                     </label>
                                     <input
-                                        type={showPassword? 'text' : 'password'}
+                                        type={
+                                            showPassword ? "text" : "password"
+                                        }
                                         name="password"
                                         className="input"
                                         placeholder="Enter Password"

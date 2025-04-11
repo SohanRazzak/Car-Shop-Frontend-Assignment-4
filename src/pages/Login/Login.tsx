@@ -1,11 +1,11 @@
 import { Link, useLocation, useNavigate } from "react-router";
 import LayoutWrapper from "../../layouts/LayoutWrapper";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useLoginMutation } from "../../redux/features/auth/authApi";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { TLoginInput } from "../../types/auth.types";
-import { useAppDispatch } from "../../redux/hooks";
-import { setUser, TUser } from "../../redux/features/auth/authSlice";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import { selectCurrentToken, setUser, TUser } from "../../redux/features/auth/authSlice";
 import { verifyToken } from "../../utils/verifyToken";
 import { toast } from "sonner";
 
@@ -16,6 +16,13 @@ const Login = () => {
     const { register, handleSubmit, reset } = useForm<TLoginInput>();
     const location = useLocation();
     const navigate = useNavigate();
+    const token = useAppSelector(selectCurrentToken)
+
+    useEffect(()=>{
+        if(token){
+            navigate(location.state || '/')
+        }
+    },[location.state, navigate, token])
 
     const handleLogin: SubmitHandler<TLoginInput> = async (userInfo) => {
         const toastId = toast.loading('Logging In...', {duration: 2000})

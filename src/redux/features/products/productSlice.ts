@@ -2,13 +2,11 @@ import { createSlice } from "@reduxjs/toolkit";
 import { TProduct } from "../../../types/types";
 
 type TInitialState = {
-    products: TProduct[] | null,
-    product: TProduct | null;
+    products: TProduct[] | null
 }
 
 const initialState: TInitialState = {
-    products: null,
-    product: null
+    products: null
 }
 
 const productSlice = createSlice({
