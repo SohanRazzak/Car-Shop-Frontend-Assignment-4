@@ -1,10 +1,8 @@
 # Assignment -4 (Car Shop Frontend)
 
 ## Team Name: Team - 5
-### Members
-- **Shanta Chandra Nath (Leader)**
-  * *email: shantonath6767@gmail.com*
-- Mohammed Mohi Uddin
+### Contributing Members
+- **Mohammed Mohi Uddin (Leader)**
   * *email: morphex72@gmail.com*
 - Md. Fayzur Razzak
   * *email: sohanrazzak7@gmail.com*
@@ -12,7 +10,7 @@
 
 ## Frontend
 - Git Link: [Car Shop Frontend](https://github.com/SohanRazzak/Car-Shop-Frontend-Assignment-4)
-
-
-
-## Technology Used
+- Live Link: [Car Shop Frontend](https://github.com/SohanRazzak/Car-Shop-Frontend-Assignment-4)
+## Backend
+- Git Link: [Car Shop Backend](https://github.com/DevMohi/car-store-backend/tree/main)
+- Live Link: [Car Shop Backend](https://car-store-assingment.vercel.app/api/v1/)

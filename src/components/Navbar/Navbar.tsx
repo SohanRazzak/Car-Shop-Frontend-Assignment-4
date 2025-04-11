@@ -2,12 +2,21 @@ import { Link, NavLink } from "react-router";
 import { MdSpaceDashboard } from "react-icons/md";
 import { useEffect } from "react";
 import { themeChange } from "theme-change";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import { logout, useCurrentToken } from "../../redux/features/auth/authSlice";
 
 type Props = {
     dashboard: boolean;
 };
 
 const Navbar = ({ dashboard }: Props) => {
+    const token = useAppSelector(useCurrentToken);
+    const dispatch = useAppDispatch();
+
+    const handleLogout = () => {
+        dispatch(logout());
+    };
+
     const menuLinks = (
         <>
             <li>
@@ -114,7 +123,9 @@ const Navbar = ({ dashboard }: Props) => {
                     </Link>
                 </div>
                 <div className="navbar-center hidden lg:flex">
-                    <ul className="menu menu-horizontal px-1 font-semibold gap-3">{menuLinks}</ul>
+                    <ul className="menu menu-horizontal px-1 font-semibold gap-3">
+                        {menuLinks}
+                    </ul>
                 </div>
                 <div className="navbar-end">
                     {/* Theme controller */}
@@ -146,12 +157,22 @@ const Navbar = ({ dashboard }: Props) => {
                         </svg>
                     </label>
 
-                    <Link
-                        to="/login"
-                        className="btn btn-error text-white uppercase"
-                    >
-                        Login
-                    </Link>
+                    {token ? (
+                        <Link
+                            onClick={handleLogout}
+                            to="/login"
+                            className="btn btn-error text-white uppercase"
+                        >
+                            Logout
+                        </Link>
+                    ) : (
+                        <Link
+                            to="/login"
+                            className="btn btn-error text-white uppercase"
+                        >
+                            Login
+                        </Link>
+                    )}
                 </div>
             </div>
         </div>

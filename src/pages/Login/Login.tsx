@@ -1,36 +1,38 @@
-import { Link } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import LayoutWrapper from "../../layouts/LayoutWrapper";
 import { useState } from "react";
 import { useLoginMutation } from "../../redux/features/auth/authApi";
-import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { TLoginInput } from "../../types/auth.types";
 import { useAppDispatch } from "../../redux/hooks";
-import { setUser } from "../../redux/features/auth/authSlice";
+import { setUser, TUser } from "../../redux/features/auth/authSlice";
 import { verifyToken } from "../../utils/verifyToken";
+import { toast } from "sonner";
 
 const Login = () => {
     const dispatch = useAppDispatch();
     const [showPassword, setShowPassword] = useState(false);
-    const [login, { isLoading, error }] = useLoginMutation();
+    const [login] = useLoginMutation();
     const { register, handleSubmit, reset } = useForm<TLoginInput>();
-
-    if (isLoading) {
-        return <LoadingSpinner />;
-    }
-
-    if (error) {
-        console.log(error); // handle login failed logic later
-    }
+    const location = useLocation();
+    const navigate = useNavigate();
 
     const handleLogin: SubmitHandler<TLoginInput> = async (userInfo) => {
-        const res = await login(userInfo).unwrap();
-        const user = verifyToken(res.data.accessToken);
+        const toastId = toast.loading('Logging In...', {duration: 2000})
+        try {
+            const res = await login(userInfo).unwrap();
+        const user = verifyToken(res.data.accessToken) as TUser;
         dispatch(setUser({
             user: user,
             token: res.data.accessToken
         }))
         reset();
+        toast.success("Logged In!", {id: toastId})
+        return navigate(location.state || '/')
+        } catch (error) {
+            toast.error('Invalid Login Info!', {id: toastId})
+            console.log(error);
+        }
     };
     return (
         <LayoutWrapper>

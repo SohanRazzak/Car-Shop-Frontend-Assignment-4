@@ -6,38 +6,48 @@ import AllProducts from "../pages/AllProducs/AllProducts";
 import DashboardContent from "../components/DashboardContent/DashboardContent";
 import Login from "../pages/Login/Login";
 import SignUp from "../pages/SignUp/SignUp";
+import ProtectedRoute from "../layouts/ProtectedRoute";
+import ProductDetails from "../components/ProductDetails/ProductDetails";
 
 export const routes = createBrowserRouter([
     {
-        path: '/',
-        element: <MainLayout/>,
+        path: "/",
+        element: <MainLayout />,
         children: [
             {
                 index: true,
-                element: <Homepage/>
+                element: <Homepage />,
             },
             {
-                path: '/all-cars',
-                element: <AllProducts/>
+                path: "all-cars",
+                element: <AllProducts />,
             },
             {
-                path: '/login',
-                element: <Login/>
+                path: "car/:id",
+                element: <ProductDetails />,
             },
             {
-                path: '/signup',
-                element: <SignUp/>
-            }
-        ]
+                path: "login",
+                element: <Login />,
+            },
+            {
+                path: "signup",
+                element: <SignUp />,
+            },
+        ],
     },
     {
-        path: '/dashboard',
-        element: <DashboardLayout/>,
+        path: "/dashboard",
+        element: (
+            <ProtectedRoute>
+                <DashboardLayout />
+            </ProtectedRoute>
+        ),
         children: [
             {
                 index: true,
-                element: <DashboardContent/>
-            }
-        ]
-    }
-])
+                element: <DashboardContent />,
+            },
+        ],
+    },
+]);

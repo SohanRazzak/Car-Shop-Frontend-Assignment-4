@@ -1,32 +1,39 @@
 import { Link } from "react-router";
+import { TProduct } from "../../types/types";
 
-const ProductCard = () => {
+type Props = {
+    car: TProduct;
+};
+const ProductCard = ({ car }: Props) => {
     return (
-        <div className="card bg-base-300 w-full shadow-sm">
+        <div className="card bg-base-300 w-full shadow-sm max-w-sm">
             <figure>
                 <img
-                    src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
+                    src={car?.image}
+                    className="h-40 w-full"
+                    onError={(e) => {
+                        e.currentTarget.src = "/noImage.png";
+                    }}
                     alt="Shoes"
                 />
             </figure>
             <div className="card-body">
                 <h2 className="card-title">
-                    Car Title Goes Here
+                    {car.name}
                     {/* featured badge */}
-                    <div className="badge badge-secondary">Featured</div>
+                    {car.isFeatured && <div className="badge badge-secondary">Featured</div>}
                 </h2>
-                <p>
-                    {"A card component has a figure".slice(0, 10).concat("...")}
+                <p className="mb-2">
+                    {car.productDetails.slice(0, 200).concat("...")}
                 </p>
                 <div className="card-actions flex-col">
-                    <p>Brand: Toyota </p>
-                    <p>Model: Toyota Trx 09 </p>
-                    <p>Category: Sedan</p>
-                    <p>Price: 14903 </p>
+                    <p>Brand: {car.brand}</p>
+                    <p>Category: {car.category}</p>
+                    <p>Starts From: {car.price + " Dollar"} </p>
                 </div>
-                <Link to={`/product/${"id"}`}>
+                <Link to={`/car/${car._id}`}>
                     <button className="block btn btn-accent text-white uppercase mx-auto mt-3 items-center">
-                    View Specification
+                        View Specification
                     </button>
                 </Link>
             </div>

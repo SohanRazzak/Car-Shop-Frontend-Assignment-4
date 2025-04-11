@@ -1,4 +1,5 @@
 export type TProduct = {
+    _id: string;
     name: string;
     brand: string; //BMW
     price: number; //30k
@@ -7,6 +8,7 @@ export type TProduct = {
     category: 'Sedan' | 'SUV' | 'Truck' | 'Coupe' | 'Convertible';
     stock: number;
     inStock: boolean;
+    isFeatured: boolean;
     image: string;
     productDetails: string;
 };

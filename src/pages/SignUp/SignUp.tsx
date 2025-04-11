@@ -1,14 +1,21 @@
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import LayoutWrapper from "../../layouts/LayoutWrapper";
 import { FormEvent, useState } from "react";
+import { useSignupMutation } from "../../redux/features/auth/authApi";
+import { toast } from "sonner";
 
 const SignUp = () => {
     const [showPassword, setShowPassword] = useState(false);
+    const [ signup] = useSignupMutation();
+    const navigate = useNavigate();
 
 
-    const handleSignUp = (e: FormEvent<HTMLFormElement>) => {
+    const handleSignUp = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        const form = e.currentTarget;
+        const toastId = toast.loading('Signing Up...', {duration: 2000});
+
+        try {
+            const form = e.currentTarget;
         const newUserInfo = {
             name: form.nameFull.value,
             email: form.email.value,
@@ -17,7 +24,15 @@ const SignUp = () => {
             address: form.address.value,
             city: form.address.value,
         };
-        console.log(newUserInfo);
+        await signup(newUserInfo);
+        toast.success('Sign Up Success!', {id: toastId})
+        return navigate('/login')
+        form.reset();
+        } catch (error) {
+            toast.error('Error: Something went wrong!', {id: toastId})
+            console.log(error);
+            
+        }
     };
     return (
         <LayoutWrapper>
