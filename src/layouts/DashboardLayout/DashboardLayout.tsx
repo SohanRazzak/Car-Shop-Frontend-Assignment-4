@@ -15,7 +15,7 @@ const DashboardLayout = () => {
                     <div className="min-w-56 min-h-screen hidden md:block mb-5">
                         <Sidebar/>
                     </div>
-                    <div className="flex-grow-1 p-4 shadow rounded-lg mb-5">
+                    <div className="flex-grow-1 p-4 shadow rounded-lg mb-5 overflow-x-auto">
                         <Outlet />
                     </div>
                 </div>

@@ -15,3 +15,12 @@ export type TProduct = {
     image: string;
     productDetails: string;
 };
+
+export type TUser = {
+    name: string;
+    email: string;
+    password: string;
+    phone: string;
+    address: string;
+    city: string;
+}

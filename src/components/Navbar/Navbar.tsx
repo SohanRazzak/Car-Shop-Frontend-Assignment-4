@@ -21,9 +21,11 @@ const Navbar = () => {
             <li>
                 <NavLink to="/all-cars">All Cars</NavLink>
             </li>
-            <li>
+            {
+                userRole && <li>
                 <NavLink to={`/${userRole}/dashboard`}>Dashboard</NavLink>
             </li>
+            }
             <li>
                 <NavLink to="/about-us">About Us</NavLink>
             </li>

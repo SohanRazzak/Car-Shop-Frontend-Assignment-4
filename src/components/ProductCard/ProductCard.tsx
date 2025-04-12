@@ -6,7 +6,7 @@ type Props = {
 };
 const ProductCard = ({ car }: Props) => {
     return (
-        <div className="card bg-base-300 w-full shadow-sm max-w-sm">
+        <div className="card h-full bg-base-300 w-full shadow-sm max-w-sm">
             <figure>
                 <img
                     src={car?.image}
