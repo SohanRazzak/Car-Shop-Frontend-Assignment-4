@@ -64,7 +64,7 @@ const ManageProducts = () => {
     
 
     return (
-        <div className="w-full">
+        <div className="w-full overflow-x-auto">
             <SectionHeading title="Manage Products" subTitle="" />
             <table className="table table-zebra w-full">
                 <thead className="bg-base-200">
