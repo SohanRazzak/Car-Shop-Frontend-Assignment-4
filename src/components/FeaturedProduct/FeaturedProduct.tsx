@@ -8,7 +8,7 @@ import ProductCard from "../ProductCard/ProductCard";
 import SectionHeading from "../SectionHeading/SectionHeading";
 
 const FeaturedProduct = () => {
-    const { data, isLoading, isError, error } =
+    const { data, isLoading, isError, error, refetch } =
         useGetAllProductsQuery(undefined);
 
     if (isLoading) {
@@ -16,7 +16,7 @@ const FeaturedProduct = () => {
     }
 
     if (isError || error) {
-        return <ErrorComponent />;
+        return <ErrorComponent refetch={refetch}/>;
     }
 
     const allCars = data.data as TProduct[];

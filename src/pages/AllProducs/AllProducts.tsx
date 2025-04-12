@@ -9,7 +9,7 @@ import { useAppDispatch } from "../../redux/hooks";
 import { TProduct } from "../../types/types";
 
 const AllProducts = () => {
-    const { data, isLoading, isError, error } =
+    const { data, isLoading, isError, error, refetch } =
         useGetAllProductsQuery(undefined);
     const dispatch = useAppDispatch();
 
@@ -18,7 +18,7 @@ const AllProducts = () => {
     }
 
     if (isError || error) {
-        return <ErrorComponent />;
+        return <ErrorComponent refetch={refetch}/>;
     }
 
     const allCars = data.data as TProduct[];
