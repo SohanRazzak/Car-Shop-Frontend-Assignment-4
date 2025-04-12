@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import ErrorComponent from "../../components/ErrorComponent/ErrorComponent";
 import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
 import ProductCard from "../../components/ProductCard/ProductCard";
@@ -13,6 +14,13 @@ const AllProducts = () => {
         useGetAllProductsQuery(undefined);
     const dispatch = useAppDispatch();
 
+
+    useEffect(() => {
+            if (data) {
+              dispatch(setProducts(data?.data as TProduct[]));
+            }
+          }, [data, dispatch]);
+
     if (isLoading) {
         return <LoadingSpinner />;
     }
@@ -22,7 +30,7 @@ const AllProducts = () => {
     }
 
     const allCars = data.data as TProduct[];
-    dispatch(setProducts(allCars));
+    
     return (
         <LayoutWrapper>
             <Title title="View All Cars"></Title>

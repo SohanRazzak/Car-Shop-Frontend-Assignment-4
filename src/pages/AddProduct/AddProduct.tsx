@@ -9,25 +9,36 @@ import { toast } from "sonner";
 import { useCreateProductMutation } from "../../redux/features/products/productApi";
 
 const AddProduct = () => {
-    const { register, handleSubmit } = useForm<TProduct>();
+    const { register, handleSubmit, reset } = useForm<TProduct>();
     const [fileUrl, setfileURL] = useState<string>("");
     const [isFeatured, setIsFeatured] = useState<boolean>(false);
     const [createProduct] = useCreateProductMutation();
 
-    const handleAddProduct = (data: TProduct) => {
-        if (fileUrl == "") {
+    const handleAddProduct = async (data: TProduct) => {
+        if (!fileUrl) {
             return toast.error("Please upload an Image!", { duration: 2000 });
         }
 
-        let inStock = false;
-        if(data.stock > 0){
-            inStock = true
+        const toastId = toast.loading("Adding New Product")
+    
+        const inStock = data.stock > 0;
+        const newProduct = {
+            ...data,
+            image: fileUrl,
+            isFeatured,
+            inStock,
+        };
+    
+        try {
+            await createProduct(newProduct).unwrap();
+            toast.success("Product added successfully!",{id: toastId});
+            reset()
+        } catch (error) {
+            toast.error("Failed to add product", {id: toastId});
+            console.error("Add product error:", error);
         }
-
-        const newProduct = { ...data, image: fileUrl, isFeatured, inStock };
-        console.log(newProduct);
-        createProduct(newProduct);
     };
+    
     return (
         <LayoutWrapper>
             <SectionHeading title="Add New Car" subTitle="" />

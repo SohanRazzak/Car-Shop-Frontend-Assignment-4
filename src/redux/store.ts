@@ -4,6 +4,7 @@ import { baseApi } from "./api/baseApi";
 import {PERSIST, persistReducer, persistStore, REGISTER, REHYDRATE} from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import productReducer from "./features/products/productSlice";
+import usersReducer from "./features/users/usersSlice";
 
 
 const persitsConfig  = {
@@ -15,6 +16,7 @@ const persistAuthReducer = persistReducer(persitsConfig, authReducer)
 export const store = configureStore({
     reducer: {
         auth: persistAuthReducer,
+        users: usersReducer,
         product: productReducer,
         [baseApi.reducerPath] : baseApi.reducer
     },

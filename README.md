@@ -10,7 +10,7 @@
 
 ## Frontend
 - Git Link: [Car Shop Frontend](https://github.com/SohanRazzak/Car-Shop-Frontend-Assignment-4)
-- Live Link: [Car Shop Frontend](https://github.com/SohanRazzak/Car-Shop-Frontend-Assignment-4)
+- Live Link: [Car Shop Frontend](https://car-shop-frontend-assignment-4.vercel.app/)
 ## Backend
 - Git Link: [Car Shop Backend](https://github.com/DevMohi/car-store-backend/tree/main)
 - Live Link: [Car Shop Backend](https://car-store-assingment.vercel.app/api/v1/)

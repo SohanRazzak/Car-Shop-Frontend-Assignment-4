@@ -24,7 +24,7 @@ const ProductCard = ({ car }: Props) => {
                     {car.isFeatured && <div className="badge badge-secondary">Featured</div>}
                 </h2>
                 <p className="mb-2">
-                    {car.productDetails.slice(0, 200).concat("...")}
+                    {car.productDetails.slice(0, 60).concat("...")}
                 </p>
                 <div className="card-actions flex-col">
                     <p>Brand: {car.brand}</p>

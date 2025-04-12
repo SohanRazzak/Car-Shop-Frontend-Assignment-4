@@ -6,36 +6,51 @@ import {
     useGetAllProductsQuery,
 } from "../../redux/features/products/productApi";
 import { TProduct } from "../../types/types";
-import Swal from 'sweetalert2';
+import Swal from "sweetalert2";
+import { setProducts } from "../../redux/features/products/productSlice";
+import { useAppDispatch } from "../../redux/hooks";
+import { useEffect } from "react";
+import SectionHeading from "../../components/SectionHeading/SectionHeading";
 
 const ManageProducts = () => {
     const { data, isLoading, isError, error, refetch } =
         useGetAllProductsQuery(undefined);
     const [deleteProduct] = useDeleteProductMutation();
+    const dispatch = useAppDispatch();
+
+    useEffect(() => {
+            if (data) {
+              dispatch(setProducts(data?.data as TProduct[]));
+            }
+          }, [data, dispatch]);
 
     const handleDelete = async (id: string) => {
         const result = await Swal.fire({
-          title: "Are you sure?",
-          text: "You won't be able to revert this!",
-          icon: "warning",
-          showCancelButton: true,
-          confirmButtonColor: "#d33",
-          cancelButtonColor: "#3085d6",
-          confirmButtonText: "Yes, delete it!",
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#d33",
+            cancelButtonColor: "#3085d6",
+            confirmButtonText: "Yes, delete it!",
         });
-      
+
         if (result.isConfirmed) {
-          try {
-            await deleteProduct(id).unwrap();
-            // toast.success("Car deleted successfully!");
-            Swal.fire("Deleted!", "The car has been deleted.", "success");
-          } catch (err) {
-            // toast.error("Failed to delete car.");
-            Swal.fire("Error!", "Something went wrong while deleting.", "error");
-            console.log(err);
-          }
+            try {
+                await deleteProduct(id).unwrap();
+                // toast.success("Car deleted successfully!");
+                Swal.fire("Deleted!", "The car has been deleted.", "success");
+            } catch (err) {
+                // toast.error("Failed to delete car.");
+                Swal.fire(
+                    "Error!",
+                    "Something went wrong while deleting.",
+                    "error"
+                );
+                console.log(err);
+            }
         }
-      };
+    };
 
     if (isLoading) {
         return <LoadingSpinner />;
@@ -45,9 +60,12 @@ const ManageProducts = () => {
         return <ErrorComponent refetch={refetch} />;
     }
 
+    const allCars = data.data as TProduct[];
+    
+
     return (
         <div className="w-full">
-            <h2 className="text-2xl font-bold mb-4">Manage Products</h2>
+            <SectionHeading title="Manage Products" subTitle="" />
             <table className="table table-zebra w-full">
                 <thead className="bg-base-200">
                     <tr>
@@ -63,7 +81,7 @@ const ManageProducts = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {data?.data?.map((product: TProduct, index: number) => (
+                    {allCars?.map((product: TProduct, index: number) => (
                         <tr key={product._id}>
                             <td>{index + 1}</td>
                             <td>

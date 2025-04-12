@@ -14,7 +14,9 @@ import AddProduct from "../pages/AddProduct/AddProduct";
 import AboutUs from "../pages/AboutUs/AboutUs";
 import ManageProducts from "../pages/ManageProducts/ManageProducts";
 import UpdateProduct from "../pages/UpdateProduct/UpdateProduct";
-import ManageUser from "../pages/ManageUser/ManageUser";
+import ManageUsers from "../pages/ManageUsers/ManageUsers";
+import ChangePassword from "../pages/ChangePassWord/ChangePassword";
+import UpdateProfile from "../pages/UpdateProfile/UpdateProfile";
 
 export const routes = createBrowserRouter([
     // Mainlayout items
@@ -76,8 +78,16 @@ export const routes = createBrowserRouter([
                 element: <UpdateProduct/>,
             },
             {
-                path: "manage-user",
-                element: <ManageUser/>,
+                path: "manage-users",
+                element: <ManageUsers/>,
+            },
+            {
+                path: "change-password",
+                element: <ChangePassword/>,
+            },
+            {
+                path: "update-profile",
+                element: <UpdateProfile/>,
             },
         ],
     },
@@ -94,6 +104,14 @@ export const routes = createBrowserRouter([
             {
                 index: true,
                 element: <CustomerDashboardContent />,
+            },
+            {
+                path: "change-password",
+                element: <ChangePassword/>,
+            },
+            {
+                path: "update-profile",
+                element: <UpdateProfile/>,
             },
         ],
     },

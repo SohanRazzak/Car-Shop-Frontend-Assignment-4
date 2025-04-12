@@ -1,16 +1,21 @@
 import { baseApi } from "../../api/baseApi";
-import { TUser } from "../../../types/types"; // Make sure TUser is defined properly
 
 export const userApi = baseApi.injectEndpoints({
     endpoints: (builder) => ({
-        getAllUsers: builder.query<TUser[], void>({
+        getAllUsers: builder.query({
             query: () => '/users',
             providesTags: ['Users']
         }),
-        getUserById: builder.query<TUser, string>({
+        getUserById: builder.query({
             query: (id) => `/users/${id}`,
         }),
-        createUser: builder.mutation<void, Partial<TUser>>({
+
+
+        getMe: builder.query({
+            query: () => "/auth/me",
+        }),
+
+        createUser: builder.mutation({
             query: (newUser) => ({
                 url: '/users',
                 method: 'POST',
@@ -18,18 +23,30 @@ export const userApi = baseApi.injectEndpoints({
             }),
             invalidatesTags: ['Users']
         }),
-        updateUser: builder.mutation<void, { id: string; body: Partial<TUser> }>({
-            query: ({ id, body }) => ({
-                url: `/users/${id}`,
-                method: 'PATCH',
-                body,
+
+        updateProfile: builder.mutation({
+            query: (profileData) => ({
+                url: "/users/update-profile",
+                method: "PATCH",
+                body: profileData,
             }),
             invalidatesTags: ['Users']
         }),
-        deleteUser: builder.mutation<void, string>({
-            query: (id) => ({
-                url: `/users/${id}`,
-                method: 'DELETE',
+
+
+        blockUser: builder.mutation({
+            query: ({ id, status }) => ({
+                url: `/users/update-status/${id}`,
+                method: 'PATCH',
+                body: { status }
+            }),
+            invalidatesTags: ['Users']
+        }),
+        changeRole: builder.mutation({
+            query: ({ id, role }) => ({
+                url: `/users/update-role/${id}`,
+                method: 'PATCH',
+                body: { role }
             }),
             invalidatesTags: ['Users']
         }),
@@ -40,6 +57,8 @@ export const {
     useGetAllUsersQuery,
     useGetUserByIdQuery,
     useCreateUserMutation,
-    useUpdateUserMutation,
-    useDeleteUserMutation
+    useUpdateProfileMutation,
+    useBlockUserMutation,
+    useGetMeQuery,
+    useChangeRoleMutation
 } = userApi;

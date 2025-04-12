@@ -18,6 +18,7 @@ const Login = () => {
     const navigate = useNavigate();
     const token = useAppSelector(selectCurrentToken)
 
+
     useEffect(()=>{
         if(token){
             navigate(location.state || '/')
@@ -34,6 +35,7 @@ const Login = () => {
             token: res.data.accessToken
         }))
         reset();
+
         toast.success("Logged In!", {id: toastId})
         return navigate(location.state || '/')
         } catch (error) {

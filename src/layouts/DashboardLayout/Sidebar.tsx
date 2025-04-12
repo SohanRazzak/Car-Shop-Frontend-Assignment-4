@@ -11,22 +11,41 @@ const Sidebar = () => {
         <>
             {/* Sidebar content here */}
             <li>
+                <NavLink  className="!bg-rose-600 text-white uppercase" to="/admin/dashboard/">Dashboard</NavLink>
+            </li>
+            <li>
+                <NavLink to="/admin/dashboard/update-profile">Update Profile</NavLink>
+            </li>
+            <li>
+                <NavLink to="/admin/dashboard/change-password">Change Password</NavLink>
+            </li>
+            <li>
+                <NavLink to="/admin/dashboard/manage-users">Manage Users</NavLink>
+            </li>
+            <li>
                 <NavLink to="/admin/dashboard/add-car">Add New Car</NavLink>
             </li>
             <li>
                 <NavLink to="/admin/dashboard/manage-car">Manage Car</NavLink>
             </li>
-            <li>
-                <NavLink to="/admin/dashboard/manage-users">Manage Users</NavLink>
-            </li>
         </>
     );
+
 
     const customerSidebarItems = (
         <>
             {/* Sidebar content here */}
             <li>
-                <NavLink to="/customer/dashboard">Dashboard 2</NavLink>
+                <NavLink className="!bg-rose-600 text-white uppercase" to="/customer/dashboard">Dashboard</NavLink>
+            </li>
+            <li>
+                <NavLink to="/customer/dashboard/update-profile">Update Profile</NavLink>
+            </li>
+            <li>
+                <NavLink to="/customer/dashboard/change-password">Change Password</NavLink>
+            </li>
+            <li>
+                <NavLink to="/customer/dashboard">Dashboard</NavLink>
             </li>
         </>
     );
