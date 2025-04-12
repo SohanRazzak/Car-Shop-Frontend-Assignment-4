@@ -2,11 +2,12 @@ import { useState } from "react";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { storage } from "../../config/firebase.config";
 
-type UploadFileProps = {
+type Props = {
     onUploadComplete: (url: string) => void;
+    optional: boolean
 };
 
-const UploadFile = ({ onUploadComplete }: UploadFileProps) => {
+const UploadFile = ({ onUploadComplete, optional }: Props) => {
     const [file, setFile] = useState<File | null>(null);
     const [uploading, setUploading] = useState(false);
 
@@ -27,7 +28,7 @@ const UploadFile = ({ onUploadComplete }: UploadFileProps) => {
 
     return (
         <div className="flex flex-row gap-2 items-center">
-            <input type="file" className="file-input" onChange={handleSelectFile} />
+            <input type="file" className="file-input" onChange={handleSelectFile} required={optional? false: true}/>
             <button
                 className="btn btn-info uppercase text-white"
                 onClick={handleUpload}

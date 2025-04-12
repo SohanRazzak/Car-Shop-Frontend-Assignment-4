@@ -7,11 +7,35 @@ export const productApi = baseApi.injectEndpoints({
             providesTags: ['Products']
         }),
         getProductById: builder.query({
-            query: (id)=> `/products/${id}`,
-        })
+            query: (id) => `/products/${id}`,
+        }),
+        createProduct: builder.mutation({
+            query: (newProduct) => ({
+                url: '/products',
+                method: 'POST',
+                body: newProduct
+            })
+        }),
+        updateProduct: builder.mutation({
+            query: ({ id, updatedProduct }) => ({
+                url: `/products/${id}`,
+                method: 'PATCH',
+                updatedProduct,
+            }),
+            invalidatesTags: ['Products']
+        }),
+        deleteProduct: builder.mutation({
+            query: (id) => ({
+                url: `/products/${id}`,
+                method: 'delete',
+            }),
+            invalidatesTags: ["Products"]
+        }),
     })
 })
 
 
 // Exporting auto generated hooks
-export const { useGetAllProductsQuery, useGetProductByIdQuery } = productApi;
+export const { useGetAllProductsQuery, useGetProductByIdQuery, useCreateProductMutation, useUpdateProductMutation,
+    useDeleteProductMutation
+ } = productApi;

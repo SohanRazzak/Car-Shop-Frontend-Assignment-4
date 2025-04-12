@@ -7,13 +7,13 @@ import LayoutWrapper from "../../layouts/LayoutWrapper";
 
 const ProductDetails = () => {
     const { id } = useParams();
-    const { data, isLoading, isError, error } = useGetProductByIdQuery(id);
+    const { data, isLoading, isError, error, refetch } = useGetProductByIdQuery(id);
     if (isLoading) {
         return <LoadingSpinner />;
     }
 
     if (isError || error) {
-        return <ErrorComponent />;
+        return <ErrorComponent refetch={refetch}/>;
     }
     const currentCar = data.data as TProduct;
     return (
@@ -42,15 +42,17 @@ const ProductDetails = () => {
                         ${currentCar.price}
                     </p>
 
-
-                    {/* Description */}
-                    <p className="mt-6 text-gray-700 max-w-10/12">{currentCar.productDetails}</p>
-
                     {/* Buy Button */}
                     <button className="btn btn-accent text-white uppercase mt-6">
                         Buy Now
                     </button>
                 </div>
+            </div>
+            <div className="mx-2 my5 md:my-10">
+            <h3 className=" border-y-2 text-2xl md:text-4xl p-2 w-full text-center font-mono font-bold">Product Details</h3>
+                <p className="text-lg p-4">
+                    {currentCar.productDetails}
+                </p>
             </div>
         </div>
         </LayoutWrapper>

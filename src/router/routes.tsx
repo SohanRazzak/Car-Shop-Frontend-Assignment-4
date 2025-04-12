@@ -11,15 +11,17 @@ import ProtectedRoute from "../layouts/ProtectedRoute";
 import ProductDetails from "../components/ProductDetails/ProductDetails";
 import ErrorPage from "../pages/ErrorPage/ErrorPage";
 import AddProduct from "../pages/AddProduct/AddProduct";
-import ManageProduct from "../pages/ManageProduct/ManageProduct";
 import AboutUs from "../pages/AboutUs/AboutUs";
+import ManageProducts from "../pages/ManageProducts/ManageProducts";
+import UpdateProduct from "../pages/UpdateProduct/UpdateProduct";
+import ManageUser from "../pages/ManageUser/ManageUser";
 
 export const routes = createBrowserRouter([
-    // Mainlayout items 
+    // Mainlayout items
     {
         path: "/",
         element: <MainLayout />,
-        errorElement: <ErrorPage/>,
+        errorElement: <ErrorPage />,
         children: [
             {
                 index: true,
@@ -48,7 +50,7 @@ export const routes = createBrowserRouter([
         ],
     },
 
-    // Admin layout items 
+    // Admin layout items
     {
         path: "/admin/dashboard",
         element: (
@@ -67,12 +69,20 @@ export const routes = createBrowserRouter([
             },
             {
                 path: "manage-car",
-                element: <ManageProduct />,
-            }
+                element: <ManageProducts />,
+            },
+            {
+                path: "update-car/:id",
+                element: <UpdateProduct/>,
+            },
+            {
+                path: "manage-user",
+                element: <ManageUser/>,
+            },
         ],
     },
 
-    // Customer accessible path 
+    // Customer accessible path
     {
         path: "/customer/dashboard",
         element: (
@@ -84,7 +94,7 @@ export const routes = createBrowserRouter([
             {
                 index: true,
                 element: <CustomerDashboardContent />,
-            }
+            },
         ],
     },
 ]);
