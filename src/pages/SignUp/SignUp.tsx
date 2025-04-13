@@ -1,24 +1,13 @@
-import { Link, useLocation, useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 import LayoutWrapper from "../../layouts/LayoutWrapper";
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useState } from "react";
 import { useSignupMutation } from "../../redux/features/auth/authApi";
 import { toast } from "sonner";
-import { useAppSelector } from "../../redux/hooks";
-import { selectCurrentToken } from "../../redux/features/auth/authSlice";
 
 const SignUp = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [signup] = useSignupMutation();
     const navigate = useNavigate();
-    const location = useLocation();
-
-    const token = useAppSelector(selectCurrentToken);
-
-    useEffect(() => {
-        if (token) {
-            navigate(location.state || "/");
-        }
-    }, [location.state, navigate, token]);
 
     const handleSignUp = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -34,10 +23,10 @@ const SignUp = () => {
                 address: form.address.value,
                 city: form.address.value,
             };
-            await signup(newUserInfo);
+            await signup(newUserInfo).unwrap();
             toast.success("Sign Up Success!", { id: toastId });
-            return navigate("/login");
             form.reset();
+            return navigate("/login");
         } catch (error) {
             toast.error("Error: Something went wrong!", { id: toastId });
             console.log(error);

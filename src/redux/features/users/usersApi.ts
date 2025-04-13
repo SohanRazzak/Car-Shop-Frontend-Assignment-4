@@ -15,14 +15,6 @@ export const userApi = baseApi.injectEndpoints({
             query: () => "/auth/me",
         }),
 
-        createUser: builder.mutation({
-            query: (newUser) => ({
-                url: '/users',
-                method: 'POST',
-                body: newUser
-            }),
-            invalidatesTags: ['Users']
-        }),
 
         updateProfile: builder.mutation({
             query: (profileData) => ({
@@ -56,7 +48,6 @@ export const userApi = baseApi.injectEndpoints({
 export const {
     useGetAllUsersQuery,
     useGetUserByIdQuery,
-    useCreateUserMutation,
     useUpdateProfileMutation,
     useBlockUserMutation,
     useGetMeQuery,
