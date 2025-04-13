@@ -48,16 +48,16 @@ const DashboardContent = () => {
         </div>
 
         {/* Quick Links */}
-        <div className="border p-4 rounded-lg shadow-md bg-white">
+        <div className="border p-4  rounded-lg shadow-md bg-white">
           <h3 className="text-2xl font-semibold mb-4">Quick Links</h3>
-          <div className="space-y-4 grid grid-cols-1 md:grid-cols-3">
-            <Link to="/admin/users" className="btn btn-neutral w-full">
+          <div className="space-y-4 grid grid-cols-1 md:grid-cols-3 gap-4">
+            <Link to="/admin/dashboard/manage-users" className="btn btn-neutral w-full">
               Manage Users
             </Link>
-            <Link to="/admin/products" className="btn btn-neutral w-full">
+            <Link to="/admin/dashboard/manage-car" className="btn btn-neutral w-full">
               Manage Products
             </Link>
-            <Link to="/admin/orders" className="btn btn-neutral w-full">
+            <Link to="/admin/dashboard/manage-orders" className="btn btn-neutral w-full">
               Manage Orders
             </Link>
           </div>
