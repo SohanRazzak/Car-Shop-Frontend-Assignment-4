@@ -38,9 +38,9 @@ const Login = () => {
 
         toast.success("Logged In!", {id: toastId})
         return navigate(location.state || '/')
-        } catch (error) {
-            toast.error('Invalid Login Info!', {id: toastId})
-            console.log(error);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } catch (error:any) {
+            toast.error(error.data.message, {id: toastId})
         }
     };
     return (

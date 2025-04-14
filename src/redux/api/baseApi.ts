@@ -2,7 +2,8 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { RootState } from "../store";
 
 const baseQuery = fetchBaseQuery({
-    baseUrl: 'https://car-store-assingment.vercel.app/api/v1',
+    // baseUrl: 'https://car-store-assingment.vercel.app/api/v1',
+    baseUrl: 'http://localhost:5000/api/v1',
     credentials: "include",
     prepareHeaders: (headers, {getState}) =>{
         const token = (getState() as RootState).auth.token;
@@ -18,5 +19,5 @@ export const baseApi = createApi({
     reducerPath: 'baseApi',
     baseQuery: baseQuery,
     endpoints: () => ({}),
-    tagTypes: ['Products', 'Users']
+    tagTypes: ['Products', 'Users', 'Orders']
 });

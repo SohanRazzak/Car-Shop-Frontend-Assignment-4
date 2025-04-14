@@ -6,6 +6,9 @@ import LayoutWrapper from "../../layouts/LayoutWrapper";
 import UploadFile from "../../components/UploadFile/UploadFile"; // Assuming this component exists for uploading files
 import ErrorComponent from "../ErrorComponent/ErrorComponent";
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
+import { useAppDispatch } from "../../redux/hooks";
+import { logout } from "../../redux/features/auth/authSlice";
+import { Navigate } from "react-router";
 
 interface ProfileFormData {
     name: string;
@@ -24,6 +27,7 @@ const CustomerDashboard = () => {
     } = useGetMeQuery(undefined); // Fetch user data
     const { register, handleSubmit, reset } = useForm<ProfileFormData>();
     const [imageUrl, setImageUrl] = useState<string>("");
+    const dispatch = useAppDispatch()
 
     useEffect(() => {
         if (user) {
@@ -54,6 +58,11 @@ const CustomerDashboard = () => {
         return <ErrorComponent refetch={refetch} />;
     }
 
+
+    if(user?.role !== 'customer'){
+            dispatch(logout())
+            return <Navigate to='/login'/>
+        }
     return (
         <LayoutWrapper>
             <div className="max-w-4xl mx-auto p-6 space-y-6">

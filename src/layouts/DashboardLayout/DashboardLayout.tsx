@@ -1,9 +1,18 @@
-import { Outlet } from "react-router";
+import { Navigate, Outlet } from "react-router";
 import Navbar from "../../components/Navbar/Navbar";
 import LayoutWrapper from "../LayoutWrapper";
 import Sidebar from "./Sidebar";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import { logout, selectCurrentUser } from "../../redux/features/auth/authSlice";
 
 const DashboardLayout = () => {
+    const user = useAppSelector(selectCurrentUser);
+    const dispatch = useAppDispatch();
+
+    if(user?.role !== 'admin'){
+        dispatch(logout())
+        return <Navigate to='/login'/>
+    }
     return (
         <>
             <Navbar />

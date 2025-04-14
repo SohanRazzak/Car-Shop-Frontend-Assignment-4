@@ -10,13 +10,15 @@ import {
     useGetAllUsersQuery,
 } from "../../redux/features/users/usersApi";
 import { TUser } from "../../types/types";
-import { useAppDispatch } from "../../redux/hooks";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { setUsers } from "../../redux/features/users/usersSlice";
+import { selectCurrentUser } from "../../redux/features/auth/authSlice";
 
 const ManageUsers = () => {
     const { data, isLoading, isError, refetch } =
         useGetAllUsersQuery(undefined);
     const [blockUser] = useBlockUserMutation();
+    const currenAdmin = useAppSelector(selectCurrentUser);
     const dispatch = useAppDispatch();
 
     useEffect(() => {
@@ -27,6 +29,11 @@ const ManageUsers = () => {
 
     const handleStatusChange = async (user: TUser, newStatus: string) => {
         if (user.status === newStatus) return;
+        if (user.email === currenAdmin?.email) {
+            return toast("Admin Can't Deactive Own Account", {
+                duration: 2000,
+            });
+        }
 
         const confirm = await Swal.fire({
             title: `Are you sure?`,
@@ -60,7 +67,7 @@ const ManageUsers = () => {
                 title="Manage Users"
                 subTitle="All registered users"
             />
-            <div className="overflow-x-auto w-full">
+            <div className="overflow-x-auto bg-base-100 rounded-lg shadow">
                 <table className="table w-full table-zebra">
                     <thead className="bg-base-200">
                         <tr>
@@ -116,6 +123,12 @@ const ManageUsers = () => {
                     </tbody>
                 </table>
             </div>
+            {usersList.length === 0 && (
+                <div className="text-center py-10">
+                    <div className="text-5xl mb-4">👤</div>
+                    <h3 className="text-xl font-semibold">No User found</h3>
+                </div>
+            )}
         </LayoutWrapper>
     );
 };

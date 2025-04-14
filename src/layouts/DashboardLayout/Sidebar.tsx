@@ -28,6 +28,9 @@ const Sidebar = () => {
             <li>
                 <NavLink to="/admin/dashboard/manage-car">Manage Car</NavLink>
             </li>
+            <li>
+                <NavLink to="/admin/dashboard/manage-orders">Manage Orders</NavLink>
+            </li>
         </>
     );
 

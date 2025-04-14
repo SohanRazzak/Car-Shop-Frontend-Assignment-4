@@ -27,7 +27,7 @@ export const productApi = baseApi.injectEndpoints({
         deleteProduct: builder.mutation({
             query: (id) => ({
                 url: `/products/${id}`,
-                method: 'delete',
+                method: 'DELETE',
             }),
             invalidatesTags: ["Products"]
         }),

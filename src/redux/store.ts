@@ -1,13 +1,14 @@
 import { configureStore } from "@reduxjs/toolkit";
 import authReducer from './features/auth/authSlice';
 import { baseApi } from "./api/baseApi";
-import {PERSIST, persistReducer, persistStore, REGISTER, REHYDRATE} from 'redux-persist';
+import { PERSIST, persistReducer, persistStore, REGISTER, REHYDRATE } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import productReducer from "./features/products/productSlice";
 import usersReducer from "./features/users/usersSlice";
+import ordersReducer from "./features/orders/orderSlice";
 
 
-const persitsConfig  = {
+const persitsConfig = {
     key: 'auth',
     storage,
 }
@@ -18,7 +19,8 @@ export const store = configureStore({
         auth: persistAuthReducer,
         users: usersReducer,
         product: productReducer,
-        [baseApi.reducerPath] : baseApi.reducer
+        orders: ordersReducer,
+        [baseApi.reducerPath]: baseApi.reducer
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware({
         serializableCheck: {
