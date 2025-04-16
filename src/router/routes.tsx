@@ -19,6 +19,7 @@ import ChangePassword from "../pages/ChangePassWord/ChangePassword";
 import UpdateProfile from "../pages/UpdateProfile/UpdateProfile";
 import ManageOrders from "../pages/ManageOrders/ManageOrders";
 import OrderDetails from "../pages/OrderDetails/OrderDetails";
+import MyCart from "../pages/MyCart/MyCart";
 
 export const routes = createBrowserRouter([
     // Mainlayout items
@@ -58,7 +59,7 @@ export const routes = createBrowserRouter([
     {
         path: "/admin/dashboard",
         element: (
-            <ProtectedRoute>
+            <ProtectedRoute role='admin'>
                 <DashboardLayout />
             </ProtectedRoute>
         ),
@@ -72,7 +73,7 @@ export const routes = createBrowserRouter([
                 element: <AddProduct />,
             },
             {
-                path: "manage-car",
+                path: "manage-cars",
                 element: <ManageProducts />,
             },
             {
@@ -106,7 +107,7 @@ export const routes = createBrowserRouter([
     {
         path: "/customer/dashboard",
         element: (
-            <ProtectedRoute>
+            <ProtectedRoute role='customer'>
                 <DashboardLayout />
             </ProtectedRoute>
         ),
@@ -122,6 +123,10 @@ export const routes = createBrowserRouter([
             {
                 path: "update-profile",
                 element: <UpdateProfile/>,
+            },
+            {
+                path: "my-cart",
+                element: <MyCart/>,
             },
         ],
     },

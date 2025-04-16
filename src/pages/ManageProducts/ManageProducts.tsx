@@ -106,12 +106,12 @@ const ManageProducts = () => {
                                                 product._id
                                             }
                                         >
-                                            <button className="btn btn-sm btn-outline btn-warning">
+                                            <button className="btn btn-sm btn-outline btn-warning uppercase hover:text-white">
                                                 Edit
                                             </button>
                                         </Link>
                                         <button
-                                            className="btn btn-sm btn-outline btn-error"
+                                            className="btn btn-sm btn-outline btn-error uppercase hover:text-white"
                                             onClick={() =>
                                                 handleDelete(product._id)
                                             }

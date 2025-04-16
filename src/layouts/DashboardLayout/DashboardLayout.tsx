@@ -1,22 +1,15 @@
-import { Navigate, Outlet } from "react-router";
+import { Outlet } from "react-router";
 import Navbar from "../../components/Navbar/Navbar";
 import LayoutWrapper from "../LayoutWrapper";
 import Sidebar from "./Sidebar";
-import { useAppDispatch, useAppSelector } from "../../redux/hooks";
-import { logout, selectCurrentUser } from "../../redux/features/auth/authSlice";
+import ScrollToTop from "../../components/ScrollToTop/ScrollToTop";
 
 const DashboardLayout = () => {
-    const user = useAppSelector(selectCurrentUser);
-    const dispatch = useAppDispatch();
-
-    if(user?.role !== 'admin'){
-        dispatch(logout())
-        return <Navigate to='/login'/>
-    }
     return (
         <>
             <Navbar />
             <LayoutWrapper>
+                <ScrollToTop/>
                 {/* mobile version  */}
                 <div className="md:hidden mb-5">
                     <div className="drawer place-items-center -mb-4">

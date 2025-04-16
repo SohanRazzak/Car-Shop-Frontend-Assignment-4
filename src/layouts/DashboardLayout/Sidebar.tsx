@@ -26,7 +26,7 @@ const Sidebar = () => {
                 <NavLink to="/admin/dashboard/add-car">Add New Car</NavLink>
             </li>
             <li>
-                <NavLink to="/admin/dashboard/manage-car">Manage Car</NavLink>
+                <NavLink to="/admin/dashboard/manage-cars">Manage Car</NavLink>
             </li>
             <li>
                 <NavLink to="/admin/dashboard/manage-orders">Manage Orders</NavLink>
@@ -46,9 +46,6 @@ const Sidebar = () => {
             </li>
             <li>
                 <NavLink to="/customer/dashboard/change-password">Change Password</NavLink>
-            </li>
-            <li>
-                <NavLink to="/customer/dashboard">Dashboard</NavLink>
             </li>
         </>
     );

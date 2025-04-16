@@ -1,60 +1,153 @@
-import { useParams } from "react-router";
+import { useState } from "react";
+import { Link, useParams } from "react-router";
+import { useDispatch } from "react-redux";
+import { TProduct } from "../../types/types";
+import { setMyCart } from "../../redux/features/orders/orderSlice";
 import { useGetProductByIdQuery } from "../../redux/features/products/productApi";
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 import ErrorComponent from "../ErrorComponent/ErrorComponent";
-import { TProduct } from "../../types/types";
 import LayoutWrapper from "../../layouts/LayoutWrapper";
 
 const ProductDetails = () => {
     const { id } = useParams();
-    const { data, isLoading, isError, error, refetch } = useGetProductByIdQuery(id);
+    const { data, isLoading, isError, error, refetch } =
+        useGetProductByIdQuery(id);
+    const dispatch = useDispatch();
+    const [quantity, setQuantity] = useState(1);
     if (isLoading) {
         return <LoadingSpinner />;
     }
 
     if (isError || error) {
-        return <ErrorComponent refetch={refetch}/>;
+        return <ErrorComponent refetch={refetch} />;
     }
     const currentCar = data.data as TProduct;
+
+    const handleAddToCart = () => {
+        console.log(currentCar._id, quantity);
+        dispatch(
+            setMyCart({
+                productId: currentCar._id,
+                quantity,
+            })
+        );
+    };
+
+    const increaseQuantity = () => {
+        if (quantity < currentCar.stock) {
+            setQuantity(quantity + 1);
+        }
+    };
+
+    const decreaseQuantity = () => {
+        if (quantity > 1) {
+            setQuantity(quantity - 1);
+        }
+    };
+
     return (
         <LayoutWrapper>
-            <div className="mx-auto px-4 py-10">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                {/* Image */}
-                <div className="rounded-xl overflow-hidden shadow-lg bg-base-200">
+            <div className="card lg:card-side gap-5 my-6 lg:my-8 bg-base-100 shadow-xl">
+                <figure className="lg:w-1/2 p-4 md:p-6">
                     <img
                         src={currentCar.image}
                         alt={currentCar.name}
-                        onError={(e) => {
-                            e.currentTarget.src = "/noImage.png";
-                        }}
-                        className="w-full h-72 object-cover"
+                        onError={(e)=> e.currentTarget.src = "/noImage.png"}
+                        className="w-full h-full rounded-2xl object-cover"
                     />
-                </div>
+                </figure>
+                <div className="card-body lg:w-1/2">
+                    <h1 className="card-title text-3xl font-bold">
+                        {currentCar.name} {currentCar.isFeatured && <span className="badge badge-accent text-white">Featured</span>}
+                    </h1>
+                    <div className="flex flex-row gap-3">
+                    <div className="badge badge-primary">
+                        {currentCar.brand}
+                    </div>
+                    <div className="badge badge-secondary">
+                        {currentCar.model}
+                    </div>
+                    </div>
 
-                {/* Details */}
-                <div>
-                    <h1 className="text-3xl font-bold mt-4">{currentCar.name}</h1>
-                    <p className="text-lg text-gray-600 mt-1">
-                        {currentCar.brand} - {currentCar.model}
-                    </p>
-                    <p className="mt-4 text-2xl font-semibold text-accent">
-                        ${currentCar.price}
-                    </p>
+                    <div className="mt-4">
+                        <p className="text-2xl font-bold">
+                            BDT {currentCar.price.toLocaleString()}/-
+                        </p>
+                        <p className="text-sm text-gray-500 mt-1">
+                            {currentCar.stock > 0
+                                ? `${currentCar.stock} in stock`
+                                : "Out of stock"}
+                        </p>
+                    </div>
 
-                    {/* Buy Button */}
-                    <button className="btn btn-accent text-white uppercase mt-6">
-                        Buy Now
-                    </button>
+                    <div className="card-actions flex-col gap-5 justify-between mt-4">
+                        {/* Quantity Selector */}
+                        <div className="join">
+                            <button
+                                className="join-item btn btn-square btn-sm"
+                                onClick={decreaseQuantity}
+                                disabled={quantity <= 1}
+                            >
+                                -
+                            </button>
+                            <button className="join-item btn btn-sm btn-disabled text-gray-900 no-animation">
+                                {quantity}
+                            </button>
+                            <button
+                                className="join-item btn btn-square btn-sm"
+                                onClick={increaseQuantity}
+                                disabled={quantity >= currentCar.stock}
+                            >
+                                +
+                            </button>
+                        </div>
+
+                        {/* Action Buttons */}
+                        <div className="flex gap-2">
+                            <button
+                                className="btn btn-primary uppercase"
+                                onClick={handleAddToCart}
+                                disabled={currentCar.stock <= 0}
+                            >
+                                Add to Cart
+                            </button>
+                            <Link to="/checkout" className="btn btn-accent text-white uppercase">
+                                Buy Now
+                            </Link>
+                        </div>
+                    </div>
+
+                    {/* Product Specifications */}
+                    <div className="mt-6 space-y-2">
+                        <h3 className="font-bold">Specifications</h3>
+                        <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+                            <div>
+                                <p className="text-sm text-gray-500">
+                                    Brand
+                                </p>
+                                <p>{currentCar.brand}</p>
+                            </div>
+                            <div>
+                                <p className="text-sm text-gray-500">
+                                    Category
+                                </p>
+                                <p>{currentCar.category}</p>
+                            </div>
+                            <div>
+                                <p className="text-sm text-gray-500">
+                                    Model Year
+                                </p>
+                                <p>{currentCar.year}</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div className="mx-2 my5 md:my-10">
-            <h3 className=" border-y-2 text-2xl md:text-4xl p-2 w-full text-center font-mono font-bold">Product Details</h3>
-                <p className="text-lg p-4">
-                    {currentCar.productDetails}
-                </p>
+                
+            <div className="card-body my-8 shadow-2xl">
+            <h3 className="border-y-2 py-4 text-gray-800 text-3xl font-semibold font-mono text-center mt-5">Product Details</h3>
+            <p className="py-5 md:p-8">{currentCar.productDetails}</p>
             </div>
-        </div>
         </LayoutWrapper>
     );
 };

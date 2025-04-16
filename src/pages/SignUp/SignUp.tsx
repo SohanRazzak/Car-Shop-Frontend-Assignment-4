@@ -7,18 +7,29 @@ import { toast } from "sonner";
 const SignUp = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [signup] = useSignupMutation();
+    const [isWeakPassword, setIsWeakPassword] = useState(false);
     const navigate = useNavigate();
+    const checkStrongPassword =
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
     const handleSignUp = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        const form = e.currentTarget;
+        const password = form.password.value;
+
+        if (!checkStrongPassword.test(password)) {
+            console.log(password);
+            return setIsWeakPassword(true);
+            console.log(password, 2);
+        }
+
         const toastId = toast.loading("Signing Up...", { duration: 2000 });
 
         try {
-            const form = e.currentTarget;
             const newUserInfo = {
                 name: form.nameFull.value,
                 email: form.email.value,
-                password: form.password.value,
+                password,
                 phone: form.phone.value,
                 address: form.address.value,
                 city: form.address.value,
@@ -34,9 +45,9 @@ const SignUp = () => {
     };
     return (
         <LayoutWrapper>
-            <div className="hero min-h-screen">
-                <div className="hero-content flex-col lg:flex-row gap-10">
-                    <div className="text-center lg:text-left max-w-2xl">
+            <div className="flex px-2 py-5 md:py-8 items-center justify-center mx-auto">
+                <div className="flex items-center min-h-screen justify-center flex-col lg:flex-row gap-10">
+                    <div className=" lg:text-left max-w-xl grow-0 shrink-0">
                         <h1 className="text-5xl font-bold">Signup now!</h1>
                         <p className="py-6 max-w-xl leading-7">
                             Create your account to unlock powerful tools,
@@ -45,7 +56,7 @@ const SignUp = () => {
                             automotive journey starts here.
                         </p>
                     </div>
-                    <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
+                    <div className="card bg-base-100 w-full min-h-screen max-w-sm shrink-0 shadow-2xl">
                         <div className="card-body">
                             <form onSubmit={(e) => handleSignUp(e)}>
                                 <fieldset className="fieldset">
@@ -57,6 +68,8 @@ const SignUp = () => {
                                         name="nameFull"
                                         className="input"
                                         placeholder="Enter your Name"
+                                        required
+
                                     />
                                     <label className="fieldset-label">
                                         Phone
@@ -66,6 +79,8 @@ const SignUp = () => {
                                         name="phone"
                                         className="input"
                                         placeholder="Phone Number"
+                                        required
+
                                     />
                                     <label className="fieldset-label">
                                         Email
@@ -75,6 +90,8 @@ const SignUp = () => {
                                         name="email"
                                         className="input"
                                         placeholder="Enter your email"
+                                        required
+
                                     />
                                     <label className="fieldset-label">
                                         Address
@@ -84,6 +101,8 @@ const SignUp = () => {
                                         name="address"
                                         className="input"
                                         placeholder="Enter Address"
+                                        required
+
                                     />
                                     <label className="fieldset-label">
                                         City
@@ -93,6 +112,8 @@ const SignUp = () => {
                                         name="city"
                                         className="input"
                                         placeholder="Enter City"
+                                        required
+
                                     />
                                     <label className="fieldset-label">
                                         Password
@@ -101,10 +122,13 @@ const SignUp = () => {
                                         type={
                                             showPassword ? "text" : "password"
                                         }
+                                        onChange={()=> setIsWeakPassword(false)}
                                         name="password"
                                         className="input"
                                         placeholder="Enter Password"
+                                        required
                                     />
+                                    {isWeakPassword && <p className="text-red-500 m-1 pr-4">Password must contain at least one upercase, loowercase and special character (i.e: @$!%*?&)</p>}
                                     <div className="flex gap-2 items-center mx-1 mt-2">
                                         <input
                                             type="checkbox"

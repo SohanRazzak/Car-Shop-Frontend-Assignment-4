@@ -29,7 +29,7 @@ const ProductCard = ({ car }: Props) => {
                 <div className="card-actions flex-col">
                     <p>Brand: {car.brand}</p>
                     <p>Category: {car.category}</p>
-                    <p>Starts From: {car.price + " Dollar"} </p>
+                    <p>Starts From: {car.price + " BDT"} </p>
                 </div>
                 <Link to={`/car/${car._id}`}>
                     <button className="block btn btn-accent text-white uppercase mx-auto mt-3 items-center">

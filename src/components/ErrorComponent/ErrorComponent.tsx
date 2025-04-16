@@ -6,7 +6,7 @@ const ErrorComponent = ({ refetch = null }: { refetch: undefined | null | (() =>
             <div className="flex flex-col items-center justify-center space-y-8">
                 <span className="loading loading-bars loading-xl"></span>
                 <p className="text-center px-4">Sorry! Something Went Wrong.</p>
-                <RefreshButton title="Try Refreshing!" refetch={refetch} />
+                {refetch && <RefreshButton title="Try Refreshing!" refetch={refetch} />}
             </div>
         </div>
     );

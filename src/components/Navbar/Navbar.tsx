@@ -1,4 +1,4 @@
-import { Link, NavLink } from "react-router";
+import { Link, Navigate, NavLink } from "react-router";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import {
     logout,
@@ -9,9 +9,8 @@ import {
 const Navbar = () => {
     const token = useAppSelector(selectCurrentToken);
     const dispatch = useAppDispatch();
-    const user = useAppSelector(selectCurrentUser)
-    const userRole = user?.role;
-    // Replace with actual user role from your state or context
+    const user = useAppSelector(selectCurrentUser);
+
 
     const menuItems = (
         <>
@@ -22,8 +21,8 @@ const Navbar = () => {
                 <NavLink to="/all-cars">All Cars</NavLink>
             </li>
             {
-                userRole && <li>
-                <NavLink to={`/${userRole}/dashboard`}>Dashboard</NavLink>
+                user?.role && <li>
+                <NavLink to={`/${user.role}/dashboard`}>Dashboard</NavLink>
             </li>
             }
             <li>
@@ -34,6 +33,7 @@ const Navbar = () => {
 
     const handleLogout = () => {
         dispatch(logout());
+        return <Navigate to='/login'/>
     };
 
     return (

@@ -27,6 +27,8 @@ export type TUser = {
     address: string;
     city: string;
     status: 'active' | 'deactive'; //will be handled by admin
+    createdAt?: string;
+    updatedAt?: string;
 };
 
 
@@ -53,6 +55,5 @@ export type TOrder = {
     transaction: TTransaction;
     createdAt?: string;
     updatedAt?: string;
-    __v: number;
 };
 
