@@ -11,7 +11,6 @@ const Navbar = () => {
     const dispatch = useAppDispatch();
     const user = useAppSelector(selectCurrentUser);
 
-
     const menuItems = (
         <>
             <li>
@@ -20,11 +19,20 @@ const Navbar = () => {
             <li>
                 <NavLink to="/all-cars">All Cars</NavLink>
             </li>
-            {
-                user?.role && <li>
-                <NavLink to={`/${user.role}/dashboard`}>Dashboard</NavLink>
-            </li>
-            }
+            {user?.role && (
+                <>
+                    <li>
+                        <NavLink to={`/${user.role}/dashboard`}>
+                            Dashboard
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink to={`/my-cart`}>
+                            My Cart
+                        </NavLink>
+                    </li>
+                </>
+            )}
             <li>
                 <NavLink to="/about-us">About Us</NavLink>
             </li>
@@ -33,7 +41,7 @@ const Navbar = () => {
 
     const handleLogout = () => {
         dispatch(logout());
-        return <Navigate to='/login'/>
+        return <Navigate to="/login" />;
     };
 
     return (

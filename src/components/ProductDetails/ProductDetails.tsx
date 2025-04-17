@@ -7,6 +7,7 @@ import { useGetProductByIdQuery } from "../../redux/features/products/productApi
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 import ErrorComponent from "../ErrorComponent/ErrorComponent";
 import LayoutWrapper from "../../layouts/LayoutWrapper";
+import { toast } from "sonner";
 
 const ProductDetails = () => {
     const { id } = useParams();
@@ -24,13 +25,13 @@ const ProductDetails = () => {
     const currentCar = data.data as TProduct;
 
     const handleAddToCart = () => {
-        console.log(currentCar._id, quantity);
         dispatch(
             setMyCart({
                 productId: currentCar._id,
                 quantity,
             })
         );
+        toast.success(`${currentCar.name}, Qty. ${quantity} added to Cart`,{duration: 2000})
     };
 
     const increaseQuantity = () => {

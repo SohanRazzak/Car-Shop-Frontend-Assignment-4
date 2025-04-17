@@ -52,6 +52,10 @@ export const routes = createBrowserRouter([
                 path: "about-us",
                 element: <AboutUs />,
             },
+            {
+                path: "my-cart",
+                element: <MyCart />,
+            },
         ],
     },
 
@@ -59,7 +63,7 @@ export const routes = createBrowserRouter([
     {
         path: "/admin/dashboard",
         element: (
-            <ProtectedRoute role='admin'>
+            <ProtectedRoute role="admin">
                 <DashboardLayout />
             </ProtectedRoute>
         ),
@@ -78,27 +82,27 @@ export const routes = createBrowserRouter([
             },
             {
                 path: "update-car/:id",
-                element: <UpdateProduct/>,
+                element: <UpdateProduct />,
             },
             {
                 path: "manage-users",
-                element: <ManageUsers/>,
+                element: <ManageUsers />,
             },
             {
                 path: "manage-orders",
-                element: <ManageOrders/>,
+                element: <ManageOrders />,
             },
             {
                 path: "order-details/:orderId",
-                element: <OrderDetails/>,
+                element: <OrderDetails />,
             },
             {
                 path: "change-password",
-                element: <ChangePassword/>,
+                element: <ChangePassword />,
             },
             {
                 path: "update-profile",
-                element: <UpdateProfile/>,
+                element: <UpdateProfile />,
             },
         ],
     },
@@ -107,7 +111,7 @@ export const routes = createBrowserRouter([
     {
         path: "/customer/dashboard",
         element: (
-            <ProtectedRoute role='customer'>
+            <ProtectedRoute role="customer">
                 <DashboardLayout />
             </ProtectedRoute>
         ),
@@ -118,15 +122,11 @@ export const routes = createBrowserRouter([
             },
             {
                 path: "change-password",
-                element: <ChangePassword/>,
+                element: <ChangePassword />,
             },
             {
                 path: "update-profile",
-                element: <UpdateProfile/>,
-            },
-            {
-                path: "my-cart",
-                element: <MyCart/>,
+                element: <UpdateProfile />,
             },
         ],
     },

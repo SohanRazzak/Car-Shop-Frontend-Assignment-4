@@ -8,18 +8,24 @@ import usersReducer from "./features/users/usersSlice";
 import ordersReducer from "./features/orders/orderSlice";
 
 
-const persitsConfig = {
+const authPersitsConfig = {
     key: 'auth',
     storage,
 }
-const persistAuthReducer = persistReducer(persitsConfig, authReducer)
+const persistAuthReducer = persistReducer(authPersitsConfig, authReducer)
+
+const ordersPersitsConfig = {
+    key: 'orders',
+    storage,
+}
+const persistOrdersReducer = persistReducer(ordersPersitsConfig, ordersReducer)
 
 export const store = configureStore({
     reducer: {
         auth: persistAuthReducer,
         users: usersReducer,
         product: productReducer,
-        orders: ordersReducer,
+        orders: persistOrdersReducer,
         [baseApi.reducerPath]: baseApi.reducer
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware({
