@@ -102,15 +102,16 @@ const MyCart = () => {
                                     {/* Product Image */}
                                     <div className="w-24 h-24 flex-shrink-0">
                                         <img
-                                            src={item.image || "/noImage.png"}
+                                            src={item.image}
+                                            onError={(e)=> e.currentTarget.src = "/noImage.png"}
                                             alt={item.name}
                                             className="w-full h-full object-cover rounded"
                                         />
                                     </div>
 
                                     {/* Product Info */}
-                                    <div className="flex-grow">
-                                        <h3 className="font-bold text-lg">
+                                    <div className="flex-grow self-start ml-2">
+                                        <h3 className="font-bold text-lg mb-2">
                                             <Link to={`/car/${item._id}`}>
                                                 {item.name || "Product"}
                                             </Link>

@@ -5,11 +5,13 @@ import {
     selectCurrentToken,
     selectCurrentUser,
 } from "../../redux/features/auth/authSlice";
+import { selectCartItems } from "../../redux/features/orders/orderSlice";
 
 const Navbar = () => {
     const token = useAppSelector(selectCurrentToken);
     const dispatch = useAppDispatch();
     const user = useAppSelector(selectCurrentUser);
+    const mycart = useAppSelector(selectCartItems)
 
     const menuItems = (
         <>
@@ -26,8 +28,9 @@ const Navbar = () => {
                             Dashboard
                         </NavLink>
                     </li>
-                    <li>
-                        <NavLink to={`/my-cart`}>
+                    <li className="indicator">
+                    <span className="indicator-item badge badge-warning text-white">{mycart.length}</span>
+                        <NavLink to={"/my-cart"}>
                             My Cart
                         </NavLink>
                     </li>
