@@ -1,17 +1,17 @@
-import { Link, NavLink } from "react-router";
+import { Link, Navigate, NavLink } from "react-router";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import {
     logout,
     selectCurrentToken,
     selectCurrentUser,
 } from "../../redux/features/auth/authSlice";
+import { selectCartItems } from "../../redux/features/orders/orderSlice";
 
 const Navbar = () => {
     const token = useAppSelector(selectCurrentToken);
     const dispatch = useAppDispatch();
-    const user = useAppSelector(selectCurrentUser)
-    const userRole = user?.role;
-    // Replace with actual user role from your state or context
+    const user = useAppSelector(selectCurrentUser);
+    const mycart = useAppSelector(selectCartItems);
 
     const menuItems = (
         <>
@@ -21,10 +21,22 @@ const Navbar = () => {
             <li>
                 <NavLink to="/all-cars">All Cars</NavLink>
             </li>
+            {user?.role && (
+                    <li>
+                        <NavLink to={`/${user.role}/dashboard`}>
+                            Dashboard
+                        </NavLink>
+                    </li>
+            )}
             {
-                userRole && <li>
-                <NavLink to={`/${userRole}/dashboard`}>Dashboard</NavLink>
-            </li>
+                user?.role === 'customer' && (
+                    <li className="indicator">
+                    {mycart.length > 0 && <span className="indicator-item badge badge-warning text-white">{mycart.length}</span>}
+                        <NavLink to={"/my-cart"}>
+                            My Cart
+                        </NavLink>
+                    </li>
+                )
             }
             <li>
                 <NavLink to="/about-us">About Us</NavLink>
@@ -34,6 +46,7 @@ const Navbar = () => {
 
     const handleLogout = () => {
         dispatch(logout());
+        return <Navigate to="/login" />;
     };
 
     return (

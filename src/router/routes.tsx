@@ -17,6 +17,12 @@ import UpdateProduct from "../pages/UpdateProduct/UpdateProduct";
 import ManageUsers from "../pages/ManageUsers/ManageUsers";
 import ChangePassword from "../pages/ChangePassWord/ChangePassword";
 import UpdateProfile from "../pages/UpdateProfile/UpdateProfile";
+import ManageOrders from "../pages/ManageOrders/ManageOrders";
+import OrderDetails from "../pages/OrderDetails/OrderDetails";
+import MyCart from "../pages/MyCart/MyCart";
+import MyOrders from "../pages/MyOrders/MyOrders";
+import VerifyOrder from "../pages/VerifyOrder/VerifyOrder";
+import CreateAdmin from "./CreateAdmin/CreateAdmin";
 
 export const routes = createBrowserRouter([
     // Mainlayout items
@@ -49,6 +55,14 @@ export const routes = createBrowserRouter([
                 path: "about-us",
                 element: <AboutUs />,
             },
+            {
+                path: "my-cart",
+                element: <MyCart />,
+            },
+            {
+                path: "order-details/:orderId",
+                element: <OrderDetails />,
+            },
         ],
     },
 
@@ -56,7 +70,7 @@ export const routes = createBrowserRouter([
     {
         path: "/admin/dashboard",
         element: (
-            <ProtectedRoute>
+            <ProtectedRoute role="admin">
                 <DashboardLayout />
             </ProtectedRoute>
         ),
@@ -70,24 +84,36 @@ export const routes = createBrowserRouter([
                 element: <AddProduct />,
             },
             {
-                path: "manage-car",
+                path: "manage-cars",
                 element: <ManageProducts />,
             },
             {
                 path: "update-car/:id",
-                element: <UpdateProduct/>,
+                element: <UpdateProduct />,
+            },
+            {
+                path: "create-admin",
+                element: <CreateAdmin />,
             },
             {
                 path: "manage-users",
-                element: <ManageUsers/>,
+                element: <ManageUsers />,
+            },
+            {
+                path: "manage-orders",
+                element: <ManageOrders />,
+            },
+            {
+                path: "order-details/:orderId",
+                element: <OrderDetails />,
             },
             {
                 path: "change-password",
-                element: <ChangePassword/>,
+                element: <ChangePassword />,
             },
             {
                 path: "update-profile",
-                element: <UpdateProfile/>,
+                element: <UpdateProfile />,
             },
         ],
     },
@@ -96,7 +122,7 @@ export const routes = createBrowserRouter([
     {
         path: "/customer/dashboard",
         element: (
-            <ProtectedRoute>
+            <ProtectedRoute role="customer">
                 <DashboardLayout />
             </ProtectedRoute>
         ),
@@ -107,11 +133,23 @@ export const routes = createBrowserRouter([
             },
             {
                 path: "change-password",
-                element: <ChangePassword/>,
+                element: <ChangePassword />,
             },
             {
                 path: "update-profile",
-                element: <UpdateProfile/>,
+                element: <UpdateProfile />,
+            },
+            {
+                path: "my-orders",
+                element: <MyOrders />,
+            },
+            {
+                path: "order-details/:orderId",
+                element: <OrderDetails />,
+            },
+            {
+                path: "verify-order",
+                element: <VerifyOrder />,
             },
         ],
     },

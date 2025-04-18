@@ -1,11 +1,11 @@
 import { Link, useLocation, useNavigate } from "react-router";
 import LayoutWrapper from "../../layouts/LayoutWrapper";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useLoginMutation } from "../../redux/features/auth/authApi";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { TLoginInput } from "../../types/auth.types";
-import { useAppDispatch, useAppSelector } from "../../redux/hooks";
-import { selectCurrentToken, setUser, TUser } from "../../redux/features/auth/authSlice";
+import { useAppDispatch } from "../../redux/hooks";
+import { setUser, TUser } from "../../redux/features/auth/authSlice";
 import { verifyToken } from "../../utils/verifyToken";
 import { toast } from "sonner";
 
@@ -16,31 +16,32 @@ const Login = () => {
     const { register, handleSubmit, reset } = useForm<TLoginInput>();
     const location = useLocation();
     const navigate = useNavigate();
-    const token = useAppSelector(selectCurrentToken)
-
-
-    useEffect(()=>{
-        if(token){
-            navigate(location.state || '/')
-        }
-    },[location.state, navigate, token])
 
     const handleLogin: SubmitHandler<TLoginInput> = async (userInfo) => {
-        const toastId = toast.loading('Logging In...', {duration: 2000})
+        const toastId = toast.loading("Logging In...", { duration: 2000 });
         try {
             const res = await login(userInfo).unwrap();
-        const user = verifyToken(res.data.accessToken) as TUser;
-        dispatch(setUser({
-            user: user,
-            token: res.data.accessToken
-        }))
-        reset();
+            const user = verifyToken(res.data.accessToken) as TUser;
+            dispatch(
+                setUser({
+                    user: user,
+                    token: res.data.accessToken,
+                })
+            );
+            reset();
 
-        toast.success("Logged In!", {id: toastId})
-        return navigate(location.state || '/')
-        } catch (error) {
-            toast.error('Invalid Login Info!', {id: toastId})
-            console.log(error);
+            toast.success("Logged In!", { id: toastId });
+            navigate(location.state || "/");
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } catch (error: any) {
+            toast.error(error.data?.message || "Something went wrong!", { id: toastId });
+            dispatch(
+                setUser({
+                    user: null,
+                    token: null,
+                })
+            );
+            navigate("/login");
         }
     };
     return (
@@ -58,7 +59,7 @@ const Login = () => {
                             we’ve got the tools you need under one dashboard.
                         </p>
                     </div>
-                    <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
+                    <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl my-5">
                         <div className="card-body">
                             {/* React hook form  */}
 

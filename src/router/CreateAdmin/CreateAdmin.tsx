@@ -1,14 +1,13 @@
-import { Link, useNavigate } from "react-router";
 import LayoutWrapper from "../../layouts/LayoutWrapper";
 import { FormEvent, useState } from "react";
-import { useSignupMutation } from "../../redux/features/auth/authApi";
+import { useCreateAdminMutation } from "../../redux/features/auth/authApi";
 import { toast } from "sonner";
+import Title from "../../components/Title/Title";
 
-const SignUp = () => {
+const CreateAdmin = () => {
     const [showPassword, setShowPassword] = useState(false);
-    const [signup] = useSignupMutation();
+    const [signup] = useCreateAdminMutation();
     const [isWeakPassword, setIsWeakPassword] = useState(false);
-    const navigate = useNavigate();
     const checkStrongPassword =
         /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
@@ -35,7 +34,6 @@ const SignUp = () => {
             await signup(newUserInfo).unwrap();
             toast.success("Sign Up Success!", { id: toastId });
             form.reset();
-            return navigate("/login");
         } catch (error) {
             toast.error("Error: Something went wrong!", { id: toastId });
             console.log(error);
@@ -43,19 +41,11 @@ const SignUp = () => {
     };
     return (
         <LayoutWrapper>
+            <Title title="Create Admin"/>
             <div className="flex px-2 py-5 md:py-8 items-center justify-center mx-auto">
-                <div className="flex items-center min-h-screen justify-center flex-col lg:flex-row gap-10">
-                <div className=" lg:text-left max-w-xl grow-0 shrink-0">
-                        <h1 className="text-5xl font-bold">Signup now!</h1>
-                        <p className="py-6 max-w-xl leading-7">
-                            Create your account to unlock powerful tools,
-                            personalized features, and a seamless experience
-                            made for car enthusiasts and dealers alike. Your
-                            automotive journey starts here.
-                        </p>
-                    </div>
-                    <div className="card bg-base-100 w-full min-h-screen max-w-sm shrink-0 shadow-2xl">
-                        <div className="card-body">
+                <div className="flex items-center min-h-screen justify-center flex-col w-full lg:flex-row gap-10">
+                    <div className="bg-base-100 w-full min-h-screen max-w-sm shrink-0 shadow-2xl">
+                        <div className="w-full p-3 md:p-6">
                             <form onSubmit={(e) => handleSignUp(e)}>
                                 <fieldset className="fieldset">
                                     <label className="fieldset-label">
@@ -64,7 +54,7 @@ const SignUp = () => {
                                     <input
                                         type="text"
                                         name="nameFull"
-                                        className="input"
+                                        className="input input-bordered w-full"
                                         placeholder="Enter your Name"
                                         required
                                     />
@@ -74,7 +64,7 @@ const SignUp = () => {
                                     <input
                                         type="text"
                                         name="phone"
-                                        className="input"
+                                        className="input input-bordered w-full"
                                         placeholder="Phone Number"
                                         required
                                     />
@@ -84,7 +74,7 @@ const SignUp = () => {
                                     <input
                                         type="email"
                                         name="email"
-                                        className="input"
+                                        className="input input-bordered w-full"
                                         placeholder="Enter your email"
                                         required
                                     />
@@ -94,7 +84,7 @@ const SignUp = () => {
                                     <input
                                         type="text"
                                         name="address"
-                                        className="input"
+                                        className="input input-bordered w-full"
                                         placeholder="Enter Address"
                                         required
                                     />
@@ -104,7 +94,7 @@ const SignUp = () => {
                                     <input
                                         type="text"
                                         name="city"
-                                        className="input"
+                                        className="input input-bordered w-full"
                                         placeholder="Enter City"
                                         required
                                     />
@@ -119,7 +109,7 @@ const SignUp = () => {
                                             setIsWeakPassword(false)
                                         }
                                         name="password"
-                                        className="input"
+                                        className="input input-bordered w-full"
                                         placeholder="Enter Password"
                                         required
                                     />
@@ -147,20 +137,10 @@ const SignUp = () => {
                                         type="submit"
                                         className="btn btn-neutral mt-4 uppercase"
                                     >
-                                        Sign me up
+                                        Sign up an Admin
                                     </button>
                                 </fieldset>
                             </form>
-                            <hr />
-                            <p className="text-center mt-2">
-                                Already have and account?{" "}
-                                <Link
-                                    className="text-rose-600 font-bold"
-                                    to="/login"
-                                >
-                                    Login Now
-                                </Link>
-                            </p>
                         </div>
                     </div>
                 </div>
@@ -169,4 +149,4 @@ const SignUp = () => {
     );
 };
 
-export default SignUp;
+export default CreateAdmin;

@@ -35,7 +35,7 @@ const AddProduct = () => {
             reset()
         } catch (error) {
             toast.error("Failed to add product", {id: toastId});
-            console.error("Add product error:", error);
+            console.log(error);
         }
     };
     

@@ -22,7 +22,7 @@ const HomeBanner = () => {
                         <p>— all from the comfort of your home.</p>
                     </div>
                     <Link to="/all-cars">
-                        <button className="btn btn-accent uppercase">
+                        <button className="btn btn-accent uppercase text-white">
                             View All Cars
                         </button>
                     </Link>

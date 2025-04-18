@@ -1,70 +1,140 @@
-
-import { Link } from "react-router";
-import LayoutWrapper from "../../layouts/LayoutWrapper";
-import ManageProducts from "../../pages/ManageProducts/ManageProducts";
-import ManageUsers from "../../pages/ManageUsers/ManageUsers";
-// import { useAppSelector } from "../../redux/hooks";
-// import { TProduct } from "../../types/types";
+import SectionHeading from '../../components/SectionHeading/SectionHeading';
+import { useGetOrdersQuery } from "../../redux/features/orders/ordersApi";
+import { useGetAllProductsQuery } from "../../redux/features/products/productApi";
+import { useGetAllUsersQuery } from "../../redux/features/users/usersApi";
+import LoadingSpinner from '../../components/LoadingSpinner/LoadingSpinner';
+import ErrorComponent from '../../components/ErrorComponent/ErrorComponent';
+import { TOrder, TProduct, TUser } from '../../types/types';
+import RecentActivityCard from './RecentActivityCard';
+import InfoCard from './InfoCard';
 
 const DashboardContent = () => {
+  const {
+    data: ordersData,
+    isLoading: ordersLoading,
+    isError: ordersError
+  } = useGetOrdersQuery(undefined);
+  
+  const {
+    data: usersData,
+    isLoading: usersLoading,
+    isError: usersError
+  } = useGetAllUsersQuery(undefined);
+  
+  const {
+    data: productsData,
+    isLoading: productsLoading,
+    isError: productsError
+  } = useGetAllProductsQuery(undefined);
 
-    // const usersList = useAppSelector(state => state.users);
-    // const productsList = useAppSelector(state => state.product)
+  // Loading and error states
+  const isLoading = ordersLoading || usersLoading || productsLoading;
+  const isError = ordersError || usersError || productsError;
+
+  if (isLoading) return <LoadingSpinner />;
+  if (isError) {
+    return <ErrorComponent refetch={null} />;
+  }
+
+  // Data extraction with fallbacks
+  const recentOrders: TOrder[] = ordersData?.data?.slice(0, 5) || [];
+  const recentUsers: TUser[] = usersData?.data?.slice(0, 5) || [];
+  const recentProducts: TProduct[] = productsData?.data?.slice(0, 5) || [];
+
+
+  const usersCount = usersData.data.length;
+  const productsCount = productsData.data.length;
+  const ordersCount = ordersData.data.length;
 
   return (
-    <LayoutWrapper>
-      <div className="max-w-7xl mx-auto p-6 space-y-6">
-        <h2 className="text-3xl font-semibold">Admin Dashboard</h2>
-
-        {/* Stats Overview */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          <div className="stat shadow-lg p-4 rounded-lg">
-            <div className="stat-title">Total Users</div>
-            <div className="stat-value">354</div>
-            <div className="stat-desc">Total number of registered users</div>
-          </div>
-
-          <div className="stat shadow-lg p-4 rounded-lg">
-            <div className="stat-title">Total Products</div>
-            <div className="stat-value">24</div>
-            <div className="stat-desc">Total number of products listed</div>
-          </div>
-
-          <div className="stat shadow-lg p-4 rounded-lg">
-            <div className="stat-title">Total Orders</div>
-            <div className="stat-value">300</div>
-            <div className="stat-desc">Total number of orders placed</div>
-          </div>
-        </div>
-
-        {/* User Management Section */}
-        <div className="border p-4 rounded-lg shadow-md bg-white">
-          <ManageUsers/>
-        </div>
-
-        {/* Product Management Section */}
-        <div className="border p-4 rounded-lg shadow-md bg-white">
-          <ManageProducts/>
-        </div>
-
-        {/* Quick Links */}
-        <div className="border p-4 rounded-lg shadow-md bg-white">
-          <h3 className="text-2xl font-semibold mb-4">Quick Links</h3>
-          <div className="space-y-4 grid grid-cols-1 md:grid-cols-3">
-            <Link to="/admin/users" className="btn btn-neutral w-full">
-              Manage Users
-            </Link>
-            <Link to="/admin/products" className="btn btn-neutral w-full">
-              Manage Products
-            </Link>
-            <Link to="/admin/orders" className="btn btn-neutral w-full">
-              Manage Orders
-            </Link>
-          </div>
-        </div>
+    <div className="space-y-8">
+      <SectionHeading title="Admin Dashboard" subTitle="Overview and recent activities" />
+      
+      {/* Summary Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <InfoCard 
+          title="Total Products" 
+          value={ productsCount || 0} 
+          link="/admin/dashboard/manage-products" 
+        />
+        <InfoCard 
+          title="Total Orders" 
+          value={ordersCount || 0} 
+          link="/admin/dashboard/manage-orders" 
+        />
+        <InfoCard 
+          title="Total Users" 
+          value={usersCount || 0} 
+          link="/admin/dashboard/manage-users" 
+        />
       </div>
-    </LayoutWrapper>
+
+      {/* Recent Activities Grid */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <RecentActivityCard 
+          title="Recently Joined"
+          items={recentUsers}
+          renderItem={(user: TUser) => (
+            <div className="flex items-center gap-3">
+              <div className="avatar placeholder">
+                <div className="bg-neutral text-neutral-content rounded-full w-8">
+                  <span>{user.name?.charAt(0) || 'U'}</span>
+                </div>
+              </div>
+              <div>
+                <p className="font-medium">{user.name}</p>
+                <p className="text-sm text-gray-500">
+                {user.createdAt ? new Date(user.createdAt as string).toLocaleDateString(): "N/A"}
+
+                </p>
+              </div>
+            </div>
+          )}
+          viewAllLink="/admin/dashboard/manage-users"
+        />
+
+        <RecentActivityCard 
+          title="Recent Products"
+          items={recentProducts}
+          renderItem={(product: TProduct) => (
+            <div className="flex items-center gap-3">
+              <div className="avatar">
+                <div className="w-12 rounded">
+                  <img src={product.image} alt={product.name} />
+                </div>
+              </div>
+              <div>
+                <p className="font-medium">{product.name}</p>
+                <p className="text-sm text-gray-500">${product.price}</p>
+              </div>
+            </div>
+          )}
+          viewAllLink="/admin/dashboard/manage-cars"
+        />
+
+        <RecentActivityCard 
+          title="Recent Orders"
+          items={recentOrders}
+          renderItem={(order: TOrder) => (
+            <div>
+              <p className="font-medium">Order #{order._id.slice(-6)}</p>
+              <p className="text-sm">${order.totalPrice.toFixed(2)}</p>
+              <p className="text-sm text-gray-500">
+                {order.createdAt ? new Date(order.createdAt as string).toLocaleDateString(): "N/A"}
+              </p>
+              <span className="badge badge-info text-white">
+                {order.deliveryStatus}
+              </span>
+            </div>
+          )}
+          viewAllLink="/admin/dashboard/manage-orders"
+        />
+      </div>
+    </div>
   );
 };
+
+
+
 
 export default DashboardContent;

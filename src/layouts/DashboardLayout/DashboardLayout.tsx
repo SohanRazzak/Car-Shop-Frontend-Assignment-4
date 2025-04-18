@@ -2,12 +2,14 @@ import { Outlet } from "react-router";
 import Navbar from "../../components/Navbar/Navbar";
 import LayoutWrapper from "../LayoutWrapper";
 import Sidebar from "./Sidebar";
+import ScrollToTop from "../../components/ScrollToTop/ScrollToTop";
 
 const DashboardLayout = () => {
     return (
         <>
             <Navbar />
             <LayoutWrapper>
+                <ScrollToTop/>
                 {/* mobile version  */}
                 <div className="md:hidden mb-5">
                     <div className="drawer place-items-center -mb-4">

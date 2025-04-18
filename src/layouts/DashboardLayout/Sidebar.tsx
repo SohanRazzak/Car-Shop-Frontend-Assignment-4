@@ -20,13 +20,19 @@ const Sidebar = () => {
                 <NavLink to="/admin/dashboard/change-password">Change Password</NavLink>
             </li>
             <li>
+                <NavLink to="/admin/dashboard/create-admin">Add New Admin</NavLink>
+            </li>
+            <li>
                 <NavLink to="/admin/dashboard/manage-users">Manage Users</NavLink>
             </li>
             <li>
                 <NavLink to="/admin/dashboard/add-car">Add New Car</NavLink>
             </li>
             <li>
-                <NavLink to="/admin/dashboard/manage-car">Manage Car</NavLink>
+                <NavLink to="/admin/dashboard/manage-cars">Manage Car</NavLink>
+            </li>
+            <li>
+                <NavLink to="/admin/dashboard/manage-orders">Manage Orders</NavLink>
             </li>
         </>
     );
@@ -45,7 +51,7 @@ const Sidebar = () => {
                 <NavLink to="/customer/dashboard/change-password">Change Password</NavLink>
             </li>
             <li>
-                <NavLink to="/customer/dashboard">Dashboard</NavLink>
+                <NavLink to="/customer/dashboard/my-orders">My Orders</NavLink>
             </li>
         </>
     );
