@@ -178,7 +178,7 @@ const MyCart = () => {
                                         {/* Remove Button */}
                                         <button
                                             onClick={() =>
-                                                handleRemoveItem(item.productId)
+                                                handleRemoveItem(item._id)
                                             }
                                             className="btn btn-sm btn-error text-white uppercase"
                                         >

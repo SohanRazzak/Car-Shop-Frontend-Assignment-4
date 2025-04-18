@@ -4,7 +4,7 @@ import { setUser } from "../features/auth/authSlice";
 import { TRefreshToken } from "../../types/auth.types";
 
 
-const baseURL = import.meta.env.VITE_BASEURL
+const baseURL = 'https://car-store-assingment.vercel.app/api/v1'
 
 const baseQuery = fetchBaseQuery({
     baseUrl: baseURL,

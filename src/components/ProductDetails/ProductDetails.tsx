@@ -10,6 +10,8 @@ import LayoutWrapper from "../../layouts/LayoutWrapper";
 import { toast } from "sonner";
 import { useCheckoutOrdersMutation } from "../../redux/features/orders/ordersApi";
 import Title from "../Title/Title";
+import { useAppSelector } from "../../redux/hooks";
+import { selectCurrentUser } from "../../redux/features/auth/authSlice";
 
 const ProductDetails = () => {
     const { id } = useParams();
@@ -18,6 +20,7 @@ const ProductDetails = () => {
     const navigate = useNavigate();
     const [checkoutOrder] = useCheckoutOrdersMutation();
     const dispatch = useDispatch();
+    const user = useAppSelector(selectCurrentUser)
     const [quantity, setQuantity] = useState(1);
     const cartItems = [
         {
@@ -27,6 +30,9 @@ const ProductDetails = () => {
     ];
 
     const handleCheckout = async () => {
+        if(user?.role === 'admin'){
+            return toast.error('Admin can not checkout!')
+        }
         const toastId = toast.loading("Proccessing order!", { duration: 2000 });
 
         try {
@@ -49,6 +55,9 @@ const ProductDetails = () => {
     const currentCar = data.data as TProduct;
 
     const handleAddToCart = () => {
+        if(user?.role === 'admin'){
+            return toast.error('Admin can not add to cart!')
+        }
         dispatch(
             setMyCart({
                 product: currentCar._id,
@@ -145,6 +154,7 @@ const ProductDetails = () => {
                                 Add to Cart
                             </button>
                             <button
+                                disabled={currentCar.stock <= 0}
                                 className="btn btn-accent uppercase text-white"
                                 onClick={() => handleCheckout()}
                             >

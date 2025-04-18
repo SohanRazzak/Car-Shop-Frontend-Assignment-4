@@ -3,6 +3,7 @@ import { FormEvent, useState } from "react";
 import { useCreateAdminMutation } from "../../redux/features/auth/authApi";
 import { toast } from "sonner";
 import Title from "../../components/Title/Title";
+import SectionHeading from "../../components/SectionHeading/SectionHeading";
 
 const CreateAdmin = () => {
     const [showPassword, setShowPassword] = useState(false);
@@ -43,8 +44,9 @@ const CreateAdmin = () => {
         <LayoutWrapper>
             <Title title="Create Admin"/>
             <div className="flex px-2 py-5 md:py-8 items-center justify-center mx-auto">
+                <SectionHeading title="Create Admin" subTitle="Sign up a user as an admin"/>
                 <div className="flex items-center min-h-screen justify-center flex-col w-full lg:flex-row gap-10">
-                    <div className="bg-base-100 w-full min-h-screen max-w-sm shrink-0 shadow-2xl">
+                    <div className="bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
                         <div className="w-full p-3 md:p-6">
                             <form onSubmit={(e) => handleSignUp(e)}>
                                 <fieldset className="fieldset">
