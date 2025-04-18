@@ -39,7 +39,6 @@ const customQueryWithRefreshToken = async (
             api,
             extraOptions
         );
-        console.log(refreshResult);
 
         if (refreshResult.data) {
             const token = (refreshResult.data as TRefreshToken).data.accessToken;

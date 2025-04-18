@@ -18,7 +18,6 @@ import { useCheckoutOrdersMutation } from "../../redux/features/orders/ordersApi
 const MyCart = () => {
     const dispatch = useAppDispatch();
     const cartItems = useAppSelector(selectCartItems);
-    console.log(cartItems);
     const navigate = useNavigate();
     // getting products
     const { data, isLoading, isError, refetch } =
@@ -63,13 +62,12 @@ const MyCart = () => {
 
     const handleCheckout = async () => {
         const toastId = toast.loading("Proccessing order!", { duration: 2000 });
-        console.log(cartItems);
+       
         try {
             const res = await checkoutOrder(cartItems).unwrap();
             toast.loading("Order Procceed!", { id: toastId, duration: 2000 });
             window.location.href = res.data;
         } catch (error: any) {
-            console.log(error);
             navigate("/login");
             toast.error(error.data.message, { id: toastId, duration: 2000 });
         }

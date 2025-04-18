@@ -14,3 +14,13 @@
 ## Backend
 - Git Link: [Car Shop Backend](https://github.com/DevMohi/car-store-backend/tree/main)
 - Live Link: [Car Shop Backend](https://car-store-assingment.vercel.app/api/v1/)
+
+
+## Login Credentials
+**admin :**
+email: admin@gmail.com
+password: admin
+
+**customer**
+email: customer@gmail.com
+password: customer

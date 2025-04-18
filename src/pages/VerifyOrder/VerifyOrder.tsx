@@ -30,7 +30,6 @@ const VerifyOrder = () => {
     }
     const verificationData = data?.data[0];
 
-    console.log(verificationData);
     return (
         <LayoutWrapper>
             <div id="invoice">

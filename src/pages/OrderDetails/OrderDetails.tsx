@@ -50,7 +50,7 @@ const OrderDetails = () => {
                                 <span className="font-semibold">
                                     Transaction Status:
                                 </span>
-                                {order.transaction.transaction_status}
+                                {order.status}
                             </div>
                             <div className="flex justify-between">
                                 <span className="font-semibold">

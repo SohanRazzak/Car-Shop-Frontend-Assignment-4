@@ -35,7 +35,7 @@ const MyOrders = () => {
                             <th>Date</th>
                             <th>Items</th>
                             <th>Total</th>
-                            <th>Status</th>
+                            <th>Delivery Status</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -70,7 +70,7 @@ const MyOrders = () => {
                                 </td>
                                 <td>
                                     <Link
-                                        to={`/orders/${order._id}`}
+                                        to={`/customer/dashboard/order-details/${order._id}`}
                                         className="btn btn-sm btn-accent text-white uppercase"
                                     >
                                         View Details

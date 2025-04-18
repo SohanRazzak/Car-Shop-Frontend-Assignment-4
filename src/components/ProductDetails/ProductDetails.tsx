@@ -9,6 +9,7 @@ import ErrorComponent from "../ErrorComponent/ErrorComponent";
 import LayoutWrapper from "../../layouts/LayoutWrapper";
 import { toast } from "sonner";
 import { useCheckoutOrdersMutation } from "../../redux/features/orders/ordersApi";
+import Title from "../Title/Title";
 
 const ProductDetails = () => {
     const { id } = useParams();
@@ -27,13 +28,12 @@ const ProductDetails = () => {
 
     const handleCheckout = async () => {
         const toastId = toast.loading("Proccessing order!", { duration: 2000 });
-        console.log(cartItems);
+
         try {
             const res = await checkoutOrder(cartItems).unwrap();
             toast.loading("Order Procceed!", { id: toastId, duration: 2000 });
             window.location.href = res.data;
         } catch (error: any) {
-            console.log(error);
             navigate("/login");
             toast.error(error.data.message, { id: toastId, duration: 2000 });
         }
@@ -74,6 +74,7 @@ const ProductDetails = () => {
 
     return (
         <LayoutWrapper>
+            <Title title={currentCar.name}/>
             <div className="card lg:card-side gap-5 my-6 lg:my-8 bg-base-100 shadow-xl">
                 <figure className="lg:w-1/2 p-4 md:p-6">
                     <img

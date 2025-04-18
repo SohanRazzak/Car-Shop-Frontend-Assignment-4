@@ -34,7 +34,7 @@ const Login = () => {
             navigate(location.state || "/");
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } catch (error: any) {
-            toast.error(error.data?.message, { id: toastId });
+            toast.error(error.data?.message || "Something went wrong!", { id: toastId });
             dispatch(
                 setUser({
                     user: null,

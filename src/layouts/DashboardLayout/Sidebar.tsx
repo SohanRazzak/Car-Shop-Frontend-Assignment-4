@@ -20,6 +20,9 @@ const Sidebar = () => {
                 <NavLink to="/admin/dashboard/change-password">Change Password</NavLink>
             </li>
             <li>
+                <NavLink to="/admin/dashboard/create-admin">Add New Admin</NavLink>
+            </li>
+            <li>
                 <NavLink to="/admin/dashboard/manage-users">Manage Users</NavLink>
             </li>
             <li>
