@@ -102,7 +102,6 @@ const ManageOrders = () => {
                             <th>Order ID</th>
                             <th>Customer</th>
                             <th>Date</th>
-                            <th>Qty.</th>
                             <th>Total</th>
                             <th>Transaction</th>
                             <th>Delivery Status</th>
@@ -130,26 +129,6 @@ const ManageOrders = () => {
                                 </td>
                                 <td>
                                     {order.createdAt ? new Date(order.createdAt as string).toLocaleDateString() : 'N/A'}
-                                </td>
-                                <td>
-                                    <div className="flex flex-wrap gap-1">
-                                        {order.products
-                                            .slice(0, 3)
-                                            .map((item, idx) => (
-                                                <div
-                                                    key={idx}
-                                                    className="badge badge-outline"
-                                                >
-                                                    {item.quantity}x
-                                                </div>
-                                            ))}
-                                        {order.products.length > 3 && (
-                                            <div className="badge badge-ghost">
-                                                +{order.products.length - 3}{" "}
-                                                more
-                                            </div>
-                                        )}
-                                    </div>
                                 </td>
                                 <td>${order.totalPrice.toFixed(2)}</td>
                                 <td>

@@ -53,7 +53,7 @@ const customQueryWithRefreshToken = async (
 
             result = await baseQuery(arg, api, extraOptions);
         } else {
-            // optionally handle refresh failure
+            // refresh failure
             console.error('Refresh failed', refreshResult.error);
         }
     }

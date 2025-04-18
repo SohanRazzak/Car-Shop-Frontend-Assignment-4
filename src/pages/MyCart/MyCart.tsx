@@ -1,4 +1,4 @@
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import {
     setMyCart,
     clearCart,
@@ -12,13 +12,18 @@ import { useGetAllProductsQuery } from "../../redux/features/products/productApi
 import ErrorComponent from "../../components/ErrorComponent/ErrorComponent";
 import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
 import { TProduct } from "../../types/types";
+import { toast } from "sonner";
+import { useCheckoutOrdersMutation } from "../../redux/features/orders/ordersApi";
 
 const MyCart = () => {
     const dispatch = useAppDispatch();
     const cartItems = useAppSelector(selectCartItems);
+    console.log(cartItems);
+    const navigate = useNavigate();
     // getting products
     const { data, isLoading, isError, refetch } =
         useGetAllProductsQuery(undefined);
+    const [checkoutOrder] = useCheckoutOrdersMutation();
 
     if (isLoading) return <LoadingSpinner />;
     if (isError) return <ErrorComponent refetch={refetch} />;
@@ -26,7 +31,7 @@ const MyCart = () => {
     const cartItemsWithData = cartItems
         .map((item) => {
             const matchedItem = data?.data.find(
-                (data: TProduct) => data._id === item.productId
+                (data: TProduct) => data._id === item.product
             );
             if (matchedItem) {
                 return { ...matchedItem, quantity: item.quantity };
@@ -42,10 +47,10 @@ const MyCart = () => {
     );
 
     // tax
-    const taxTotal = cartTotal * .20;
+    const taxTotal = cartTotal * 0.2;
 
-    const handleQuantityChange = (productId: string, increment: number) => {
-        dispatch(setMyCart({ productId, quantity: increment }));
+    const handleQuantityChange = (product: string, increment: number) => {
+        dispatch(setMyCart({ product, quantity: increment }));
     };
 
     const handleRemoveItem = (productId: string) => {
@@ -54,6 +59,20 @@ const MyCart = () => {
 
     const handleClearCart = () => {
         dispatch(clearCart());
+    };
+
+    const handleCheckout = async () => {
+        const toastId = toast.loading("Proccessing order!", { duration: 2000 });
+        console.log(cartItems);
+        try {
+            const res = await checkoutOrder(cartItems).unwrap();
+            toast.loading("Order Procceed!", { id: toastId, duration: 2000 });
+            window.location.href = res.data;
+        } catch (error: any) {
+            console.log(error);
+            navigate("/login");
+            toast.error(error.data.message, { id: toastId, duration: 2000 });
+        }
     };
 
     if (cartItems.length === 0) {
@@ -87,12 +106,12 @@ const MyCart = () => {
                         subTitle="Manage your cart items"
                     />
                 </div>
-                    <button
-                        onClick={handleClearCart}
-                        className="flex place-self-end btn btn-sm btn-error text-white uppercase"
-                    >
-                        Clear Cart
-                    </button>
+                <button
+                    onClick={handleClearCart}
+                    className="flex place-self-end btn btn-sm btn-error text-white uppercase"
+                >
+                    Clear Cart
+                </button>
 
                 <div className="space-y-4">
                     {cartItemsWithData?.map((item) => (
@@ -103,7 +122,10 @@ const MyCart = () => {
                                     <div className="w-24 h-24 flex-shrink-0">
                                         <img
                                             src={item.image}
-                                            onError={(e)=> e.currentTarget.src = "/noImage.png"}
+                                            onError={(e) =>
+                                                (e.currentTarget.src =
+                                                    "/noImage.png")
+                                            }
                                             alt={item.name}
                                             className="w-full h-full object-cover rounded"
                                         />
@@ -168,7 +190,7 @@ const MyCart = () => {
 
                                     {/* Item Total */}
                                     <div className="text-lg font-bold">
-                                        BDT{' '}
+                                        BDT{" "}
                                         {(item.price * item.quantity).toFixed(
                                             2
                                         )}
@@ -195,7 +217,6 @@ const MyCart = () => {
 
                         <hr className="h-1 bg-gray-400 border-0 rounded" />
 
-
                         <div className="space-y-2">
                             <div className="flex justify-between">
                                 <span>Subtotal</span>
@@ -211,7 +232,7 @@ const MyCart = () => {
                             </div>
                         </div>
 
-                        <hr className="text-gray-400 boder-2"/>
+                        <hr className="text-gray-400 boder-2" />
 
                         <div className="flex justify-between text-xl font-bold">
                             <span>Total</span>
@@ -219,12 +240,12 @@ const MyCart = () => {
                         </div>
 
                         <div className="card-actions mt-4 justify-end mx-5 md:mx-1">
-                            <Link
-                                to="/checkout"
-                                className="btn btn-accent w-full md:max-w-1/3 uppercase text-white"
+                            <button
+                                className="btn btn-accent uppercase text-white"
+                                onClick={() => handleCheckout()}
                             >
-                                Proceed to Checkout
-                            </Link>
+                                Proceed to checkout
+                            </button>
                         </div>
                     </div>
                 </div>

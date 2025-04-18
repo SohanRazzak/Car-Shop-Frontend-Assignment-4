@@ -36,8 +36,8 @@ export type TUser = {
 export type TOrderProduct = {
     product: string; // This is the product ID
     quantity: number;
-    _id: string;
-  };
+    _id?: string;
+};
 
 
 export type TTransaction = {

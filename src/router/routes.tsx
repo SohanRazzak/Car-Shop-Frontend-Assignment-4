@@ -20,6 +20,8 @@ import UpdateProfile from "../pages/UpdateProfile/UpdateProfile";
 import ManageOrders from "../pages/ManageOrders/ManageOrders";
 import OrderDetails from "../pages/OrderDetails/OrderDetails";
 import MyCart from "../pages/MyCart/MyCart";
+import MyOrders from "../pages/MyOrders/MyOrders";
+import VerifyOrder from "../pages/VerifyOrder/VerifyOrder";
 
 export const routes = createBrowserRouter([
     // Mainlayout items
@@ -55,6 +57,10 @@ export const routes = createBrowserRouter([
             {
                 path: "my-cart",
                 element: <MyCart />,
+            },
+            {
+                path: "order-details/:orderId",
+                element: <OrderDetails />,
             },
         ],
     },
@@ -128,6 +134,14 @@ export const routes = createBrowserRouter([
                 path: "update-profile",
                 element: <UpdateProfile />,
             },
+            {
+                path: "my-orders",
+                element: <MyOrders />,
+            },
+            {
+                path: 'verify-order',
+                element: <VerifyOrder/>
+            }
         ],
     },
 ]);

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { useDispatch } from "react-redux";
 import { TProduct } from "../../types/types";
 import { setMyCart } from "../../redux/features/orders/orderSlice";
@@ -8,13 +8,37 @@ import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 import ErrorComponent from "../ErrorComponent/ErrorComponent";
 import LayoutWrapper from "../../layouts/LayoutWrapper";
 import { toast } from "sonner";
+import { useCheckoutOrdersMutation } from "../../redux/features/orders/ordersApi";
 
 const ProductDetails = () => {
     const { id } = useParams();
     const { data, isLoading, isError, error, refetch } =
         useGetProductByIdQuery(id);
+    const navigate = useNavigate();
+    const [checkoutOrder] = useCheckoutOrdersMutation();
     const dispatch = useDispatch();
     const [quantity, setQuantity] = useState(1);
+    const cartItems = [
+        {
+            product: id as string,
+            quantity,
+        },
+    ];
+
+    const handleCheckout = async () => {
+        const toastId = toast.loading("Proccessing order!", { duration: 2000 });
+        console.log(cartItems);
+        try {
+            const res = await checkoutOrder(cartItems).unwrap();
+            toast.loading("Order Procceed!", { id: toastId, duration: 2000 });
+            window.location.href = res.data;
+        } catch (error: any) {
+            console.log(error);
+            navigate("/login");
+            toast.error(error.data.message, { id: toastId, duration: 2000 });
+        }
+    };
+
     if (isLoading) {
         return <LoadingSpinner />;
     }
@@ -27,11 +51,13 @@ const ProductDetails = () => {
     const handleAddToCart = () => {
         dispatch(
             setMyCart({
-                productId: currentCar._id,
+                product: currentCar._id,
                 quantity,
             })
         );
-        toast.success(`${currentCar.name}, Qty. ${quantity} added to Cart`,{duration: 2000})
+        toast.success(`${currentCar.name}, Qty. ${quantity} added to Cart`, {
+            duration: 2000,
+        });
     };
 
     const increaseQuantity = () => {
@@ -53,21 +79,26 @@ const ProductDetails = () => {
                     <img
                         src={currentCar.image}
                         alt={currentCar.name}
-                        onError={(e)=> e.currentTarget.src = "/noImage.png"}
+                        onError={(e) => (e.currentTarget.src = "/noImage.png")}
                         className="w-full h-full rounded-2xl object-cover"
                     />
                 </figure>
                 <div className="card-body lg:w-1/2">
                     <h1 className="card-title text-3xl font-bold">
-                        {currentCar.name} {currentCar.isFeatured && <span className="badge badge-accent text-white">Featured</span>}
+                        {currentCar.name}{" "}
+                        {currentCar.isFeatured && (
+                            <span className="badge badge-accent text-white">
+                                Featured
+                            </span>
+                        )}
                     </h1>
                     <div className="flex flex-row gap-3">
-                    <div className="badge badge-primary">
-                        {currentCar.brand}
-                    </div>
-                    <div className="badge badge-secondary">
-                        {currentCar.model}
-                    </div>
+                        <div className="badge badge-primary">
+                            {currentCar.brand}
+                        </div>
+                        <div className="badge badge-secondary">
+                            {currentCar.model}
+                        </div>
                     </div>
 
                     <div className="mt-4">
@@ -112,9 +143,12 @@ const ProductDetails = () => {
                             >
                                 Add to Cart
                             </button>
-                            <Link to="/checkout" className="btn btn-accent text-white uppercase">
+                            <button
+                                className="btn btn-accent uppercase text-white"
+                                onClick={() => handleCheckout()}
+                            >
                                 Buy Now
-                            </Link>
+                            </button>
                         </div>
                     </div>
 
@@ -123,9 +157,7 @@ const ProductDetails = () => {
                         <h3 className="font-bold">Specifications</h3>
                         <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
                             <div>
-                                <p className="text-sm text-gray-500">
-                                    Brand
-                                </p>
+                                <p className="text-sm text-gray-500">Brand</p>
                                 <p>{currentCar.brand}</p>
                             </div>
                             <div>
@@ -144,10 +176,12 @@ const ProductDetails = () => {
                     </div>
                 </div>
             </div>
-                
+
             <div className="card-body my-8 shadow-2xl">
-            <h3 className="border-y-2 py-4 text-gray-800 text-3xl font-semibold font-mono text-center mt-5">Product Details</h3>
-            <p className="py-5 md:p-8">{currentCar.productDetails}</p>
+                <h3 className="border-y-2 py-4 text-gray-800 text-3xl font-semibold font-mono text-center mt-5">
+                    Product Details
+                </h3>
+                <p className="py-5 md:p-8">{currentCar.productDetails}</p>
             </div>
         </LayoutWrapper>
     );

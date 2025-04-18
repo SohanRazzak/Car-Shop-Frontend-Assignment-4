@@ -11,7 +11,7 @@ const Navbar = () => {
     const token = useAppSelector(selectCurrentToken);
     const dispatch = useAppDispatch();
     const user = useAppSelector(selectCurrentUser);
-    const mycart = useAppSelector(selectCartItems)
+    const mycart = useAppSelector(selectCartItems);
 
     const menuItems = (
         <>
@@ -22,20 +22,22 @@ const Navbar = () => {
                 <NavLink to="/all-cars">All Cars</NavLink>
             </li>
             {user?.role && (
-                <>
                     <li>
                         <NavLink to={`/${user.role}/dashboard`}>
                             Dashboard
                         </NavLink>
                     </li>
+            )}
+            {
+                user?.role === 'customer' && (
                     <li className="indicator">
-                    <span className="indicator-item badge badge-warning text-white">{mycart.length}</span>
+                    {mycart.length > 0 && <span className="indicator-item badge badge-warning text-white">{mycart.length}</span>}
                         <NavLink to={"/my-cart"}>
                             My Cart
                         </NavLink>
                     </li>
-                </>
-            )}
+                )
+            }
             <li>
                 <NavLink to="/about-us">About Us</NavLink>
             </li>

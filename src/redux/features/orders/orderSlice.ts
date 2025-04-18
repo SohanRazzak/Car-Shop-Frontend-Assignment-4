@@ -4,7 +4,7 @@ import { TOrder } from "../../../types/types";
 
 interface OrdersState {
     orders: TOrder[] | null;
-    myCart: { productId: string, quantity: number }[]
+    myCart: { product: string, quantity: number }[]
 }
 
 const initialState: OrdersState = {
@@ -23,15 +23,15 @@ const ordersSlice = createSlice({
         deleteOrder: (state, action) => {
             state.orders = state.orders!.filter(order => order._id !== action.payload);
         },
-        setMyCart: (state, action: PayloadAction<{ productId: string, quantity: number }>) => {
-            const { productId, quantity = 1 } = action.payload;
-            const existingItem = state.myCart.find(item => item.productId === productId);
+        setMyCart: (state, action: PayloadAction<{ product: string, quantity: number }>) => {
+            const { product, quantity = 1 } = action.payload;
+            const existingItem = state.myCart.find(item => item.product === product);
 
             if (existingItem) {
                 existingItem.quantity += quantity;
             } else {
                 state.myCart.push({
-                    productId,
+                    product,
                     quantity
                 });
             }
@@ -40,7 +40,7 @@ const ordersSlice = createSlice({
             state.myCart = []
         },
         removeCartItem: (state, action) => {
-            state.myCart = state.myCart.filter(item => item.productId !== action.payload)
+            state.myCart = state.myCart.filter(item => item.product !== action.payload)
         }
     },
 });

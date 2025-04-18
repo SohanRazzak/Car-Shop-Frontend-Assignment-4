@@ -47,6 +47,9 @@ const Sidebar = () => {
             <li>
                 <NavLink to="/customer/dashboard/change-password">Change Password</NavLink>
             </li>
+            <li>
+                <NavLink to="/customer/dashboard/my-orders">My Orders</NavLink>
+            </li>
         </>
     );
     return (
