@@ -18,9 +18,9 @@
 
 ## Login Credentials
 **admin :**
-email: admin@gmail.com
-password: admin
+-email: admin@gmail.com
+-password: admin
 
 **customer**
-email: customer@gmail.com
-password: customer
+-email: customer@gmail.com
+-password: customer
